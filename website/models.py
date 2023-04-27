@@ -8,8 +8,6 @@ class Products(db.Model):
     description = db.Column(db.String(100))
     price = db.Column(db.Integer)
     date = db.Column(db.DateTime(timezone =True),default =func.now())
-    picture = db.Column(db.Text)
-    mimetype = db.Column(db.Text)
     user_id =db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
