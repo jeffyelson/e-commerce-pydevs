@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
+content %}
+<h1>Hello, {{user.firstName}}</h1>
+
+<h1 align="center">Your Products</h1>
+<ul class="list-group list-group-flush" id="products">
+  {% for product in user.products %}
+  <li class="list-group-item">{{product.description}}</li>
+  >
+  <li class="list-group-item">{{product.price}}</li>
+  > {% endfor %}
+</ul>
+<form method="POST" enctype="multipart/form-data">
+  <h3 align="center">What do you want to sell</h3>
+  <input type="file" name="file" />
+  <textarea name="product" id="product" class="form-control"></textarea>
+
+  <label for="price">Enter the Price of the product</label>
+  <input
+    type="number"
+    class="form-control"
+    id="price"
+    name="price"
+    placeholder="Enter the price "
+  />
+  <br />
+  <button type="submit" class="btn btn-primary">Post</button>
+</form>
+{% endblock %}
