@@ -3,11 +3,23 @@ content %}
 <h1>Hello, {{user.firstName}}</h1>
 
 <h1 align="center">Available Products</h1>
-<ul class="list-group list-group-flush" id="products">
-  {% for product in products %}
-  <li class="list-group-item">{{product.description}}</li>
-  >
-  <li class="list-group-item">{{product.price}}</li>
-  > {% endfor %}
-</ul>
+<div id="topdiv3">
+			{% if products %}
+				<div class="row">
+					{% for product in products %}
+						<div class="card needspace" style="width: 18rem;">
+							<img src="static/img/{{product.image}}" class="card-img-top" alt="...">
+							<div class="card-body">
+			    				<h5 class="card-title">{{product.name}}</h5>
+			    				<p class="card-text">{{product.category}}</p>
+			  				</div>
+			  				<ul class="list-group list-group-flush">
+			  					<li class="list-group-item">{{product.description}}</li>
+			    				<li class="list-group-item">Price Range: {{product.price}}</li>
+			  				</ul>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+		</div>
 {% endblock %}

@@ -2,14 +2,50 @@
 content %}
 <h1>Hello, {{user.firstName}}</h1>
 
-<h1 align="center">Your Products</h1>
-<ul class="list-group list-group-flush" id="products">
-  {% for product in user.products %}
-  <li class="list-group-item">{{product.description}}</li>
-  >
-  <li class="list-group-item">{{product.price}}</li>
-  > {% endfor %}
-</ul>
+
+
+<div id="topdiv3">
+			{% if products %}
+				<div class="row">
+					{% for product in products %}
+						<div class="card needspace" style="width: 18rem;">
+							<img src="static/img/{{product.image}}" class="card-img-top" alt="...">
+							<div class="card-body">
+			    				<h5 class="card-title">{{product.name}}</h5>
+			    				<p class="card-text">{{product.category}}</p>
+			  				</div>
+			  				<ul class="list-group list-group-flush">
+			  					<li class="list-group-item">{{product.description}}</li>
+			    				<li class="list-group-item">Price Range: {{product.price}}</li>
+			  				</ul>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+		</div>
+
+
+<div class="row">
+			<div class="col-sm-6">
+				<div class="card">
+      				<div class="card-body">
+        				<h5 class="card-title">Do you want to Add a new Product?</h5>
+        				<p class="card-text">Adding new products was never this easy.</p>
+        				<a href="/addProduct">Add Product</a>
+      				</div>
+    			</div>
+  			</div>
+	  		<div class="col-sm-6">
+	    		<div class="card">
+	      			<div class="card-body">
+	        			<h5 class="card-title">Do you want to edit your products?</h5>
+	        			<p class="card-text">Editing products was never this easy.</p>
+	        			<a href="/editProduct">Edit Product</a>
+	      			</div>
+	    		</div>
+	  		</div>
+		</div>
+
 <form method="POST" enctype="multipart/form-data">
   <h3 align="center">What do you want to sell</h3>
   <input type="file" name="file" />
