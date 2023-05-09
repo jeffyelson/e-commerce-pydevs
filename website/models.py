@@ -9,10 +9,15 @@ class Products(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Integer)
-    image = db.Column(db.String(120), default = 'image.jpg')
+    stock = db.Column(db.Integer)
+    image = db.Column(db.String(120), default='image.jpg')
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+
+# seller homepage
+# price,stock, name a-z
+# top 5 products seller.
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

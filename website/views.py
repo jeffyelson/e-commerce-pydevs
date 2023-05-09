@@ -19,9 +19,9 @@ def saveImage(photo):
 
 
 @views.route('/')
-@login_required
 def home():
-    return render_template("home.html", user=current_user)
+    products = Products.query.all()
+    return render_template("home.html", user=current_user,products = products)
 
 
 @views.route('/addProduct', methods=['GET', 'POST'])
