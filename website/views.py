@@ -31,11 +31,12 @@ def addProduct():
         name = request.form.get('name')
         description = request.form.get('description')
         price = request.form.get('price')
+        stock = request.form.get('stock')
         photo = saveImage(request.files.get('image'))
 
         print(category, name, description, price, photo)
 
-        new_product = Products(category=category, name=name, description=description, price=price, image=photo,
+        new_product = Products(category=category, name=name, description=description, price=price, stock=stock,image=photo,
                                user_id=current_user.id)
         db.session.add(new_product)
         db.session.commit()
@@ -48,7 +49,12 @@ def addProduct():
 
 @views.route('/editProduct/<int:id>', methods=['GET', 'POST'])
 def editProduct(id):
-    return render_template("editProduct.html", user=current_user)
+    print(id)
+    result = Products.query.get_or_404(id)
+    print(result.stock)
+
+    print(result)
+    return render_template("editProduct.html", user=current_user, result=result)
 
 
 @views.route('/seller', methods=['GET', 'POST'])

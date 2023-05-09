@@ -1,4 +1,46 @@
 {% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
 content %}
-<h1>This edit product</h1>
+<br>
+<div class="card w-75 ">
+    <form class="card-body" action="{{ url_for('views.addProduct') }}" method="POST" enctype="multipart/form-data">
+        <h5 class="card-title">Add New Item</h5>
+        <div class="form-group">
+
+            <label>Category</label>
+            <select class="form-control" name="category">
+                <option value="{{ category }}" selected>{{ result.category }}</option>
+
+
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Product Name</label>
+            <textarea class="form-control" rows="1" name="name" required>{{result.name}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Description</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" name="description" required>{{result.description}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Price</label>
+            <textarea class="form-control" rows="1" name="price" required>{{result.price}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Stock</label>
+            <textarea class="form-control" rows="1" name="price" required>{{result.stock}}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Product Image</label>
+            <input type="file" class="form-control-file" id="image" name="image" accept="image/">
+            {% if result.image %}
+            <br>
+            <img src="{{ url_for('static', filename='img/' + result.image) }}" alt="Product Image" width="100"
+                 height="100">
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>
 {% endblock %}
