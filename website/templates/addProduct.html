@@ -1,30 +1,42 @@
 {% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
 content %}
 <br>
-<div class="card w-75 " >
-			<form class="card-body" action="{{ url_for('views.addProduct') }}" method="POST" enctype="multipart/form-data">
-				<h5 class="card-title">Add New Item</h5>
-				<div class="form-group">
-	    			<label>Category</label>
-	    			<input type="text" class="form-control" id="category" name="category" required autofocus>
-	  			</div>
-	  			<div class="form-group">
-	    			<label >Name</label>
-	    			<input type="text" class="form-control" id="name" name="name" required>
-	  			</div>
-	  			<div class="form-group">
-	    			<label>Description</label>
-	    			<input type="text" class="form-control" id="description" name="description">
-	  			</div>
-	  			<div class="form-group">
-	  				<label >Price: </label>
-    				<input type="number" id="price" name="price">
-  				</div>
-	  			<div class="form-group">
-	  				<label>Product Image</label>
-	    			<input type="file" class="form-control-file" id= "image" name="image" accept="image/">
-	  			</div>
-	  			<button type="submit" class="btn btn-primary">Add</button>
-			</form>
-		</div>
+<div class="card w-75 ">
+    <form class="card-body" action="{{ url_for('views.addProduct') }}" method="POST" enctype="multipart/form-data">
+        <h5 class="card-title">Add New Item</h5>
+        <div class="form-group">
+            <label>Category</label>
+            <select name="category" id="category">
+                <option value="" selected disabled hidden>Choose here</option>
+                <option id="electronics" value="electronics">Electronics</option>
+                <option id="food" value="food">Food</option>
+                <option id="clothing" value="clothing">Clothing</option>
+                <option id="shoes" value="shoes">Shoes</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <br>
+            <textarea id="description" name="description" rows="4" cols="90">
+                </textarea>
+        </div>
+        <div class="form-group">
+            <label>Price: </label>
+            <input type="number" id="price" name="price">
+        </div>
+        <div class="form-group">
+            <label>Stock: </label>
+            <input type="number" id="stock" name="stock">
+        </div>
+        <div class="form-group">
+            <label>Product Image</label>
+            <input type="file" class="form-control-file" id="image" name="image" accept="image/">
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>
 {% endblock %}
