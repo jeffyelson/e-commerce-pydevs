@@ -21,7 +21,7 @@ def saveImage(photo):
 @views.route('/')
 def home():
     products = Products.query.all()
-    return render_template("home.html", user=current_user,products = products)
+    return render_template("home.html", user=current_user, products=products)
 
 
 @views.route('/addProduct', methods=['GET', 'POST'])
@@ -46,8 +46,8 @@ def addProduct():
     return render_template("addProduct.html", user=current_user)
 
 
-@views.route('/editProduct')
-def editProduct():
+@views.route('/editProduct/<int:id>', methods=['GET', 'POST'])
+def editProduct(id):
     return render_template("editProduct.html", user=current_user)
 
 
