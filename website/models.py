@@ -4,6 +4,7 @@ from sqlalchemy.sql import func
 
 
 class Products(db.Model):
+    __searchable__ = ['name', 'description']
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(50), nullable=False)
     name = db.Column(db.String(100), nullable=False)
