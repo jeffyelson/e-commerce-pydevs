@@ -27,8 +27,8 @@ def home():
 @views.route('/result')
 def searchResult():
     query = request.args.get('q')
-    products = Products.query.msearch(query, fileds=['name', 'description'], limit =3)
-    return render_template("searchResults.html", products= products)
+    products = Products.query.msearch(query, fields=['name', 'description'])
+    return render_template("searchResult.html", products= products)
 
 
 @views.route('/addProduct', methods=['GET', 'POST'])
