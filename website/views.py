@@ -24,6 +24,13 @@ def home():
     return render_template("home.html", user=current_user, products=products)
 
 
+@views.route('/result')
+def searchResult():
+    query = request.args.get('q')
+    products = Products.query.msearch(query, fileds=['name', 'description'], limit =3)
+    return render_template("searchResults.html", products= products)
+
+
 @views.route('/addProduct', methods=['GET', 'POST'])
 def addProduct():
     if request.method == 'POST':
@@ -36,7 +43,8 @@ def addProduct():
 
         print(category, name, description, price, photo)
 
-        new_product = Products(category=category, name=name, description=description, price=price, stock=stock,image=photo,
+        new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
+                               image=photo,
                                user_id=current_user.id)
         db.session.add(new_product)
         db.session.commit()
