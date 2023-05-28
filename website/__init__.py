@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path
+from flask_msearch import Search
 from flask_login import LoginManager
 
 db = SQLAlchemy()
@@ -12,6 +12,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'ISEE'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
+
 
     from .views import views
     from .auth import auth
