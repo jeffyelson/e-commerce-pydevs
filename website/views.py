@@ -78,7 +78,7 @@ def deleteProduct(id):
     if request.method == "POST":
         db.session.delete(product)
         db.session.commit()
-        flash('The product {product.name} was deleted', 'success')
+        flash(f'The product {product.name} was deleted', 'success')
         products = Products.query.all()
         return render_template("home_seller.html", user=current_user, products=products)
 
