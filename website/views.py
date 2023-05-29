@@ -28,7 +28,7 @@ def home():
 def searchResult():
     query = request.args.get('q')
     products = Products.query.msearch(query, fields=['name', 'description'])
-    return render_template("searchResult.html", products= products)
+    return render_template("searchResult.html", products=products)
 
 
 @views.route('/addProduct', methods=['GET', 'POST'])
@@ -57,24 +57,17 @@ def addProduct():
 
 @views.route('/editProduct/<int:id>', methods=['GET', 'POST'])
 def editProduct(id):
-    print(id)
     result = Products.query.get_or_404(id)
-    print(result)
-    print("Preetam naik")
-    print(result.stock)
-
-    print(result)
     if request.method == "POST":
         result.name = request.form.get('name')
         result.description = request.form.get('description')
-        result.price =  request.form.get('price')
+        result.price = request.form.get('price')
         result.stock = request.form.get('stock')
         result.photo = saveImage(request.files.get('image'))
         db.session.commit()
-        flash(f'Your Product has been updated','success')
-
-        products= Products.query.all()
-        return render_template("home_seller.html", user=current_user, products = products)
+        flash(f'Your product has been updated', 'success')
+        products = Products.query.all()
+        return render_template("home_seller.html", user=current_user, products=products)
 
     return render_template("editProduct.html", user=current_user, result=result)
 
