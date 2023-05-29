@@ -72,6 +72,17 @@ def editProduct(id):
     return render_template("editProduct.html", user=current_user, result=result)
 
 
+@views.route('/deleteProduct/<int:id>', methods=["POST"])
+def deleteProduct(id):
+    product = Products.query.get_or_404(id)
+    if request.method == "POST":
+        db.session.delete(product)
+        db.session.commit()
+        flash('The product {product.name} was deleted', 'success')
+        products = Products.query.all()
+        return render_template("home_seller.html", user=current_user, products=products)
+
+
 @views.route('/seller', methods=['GET', 'POST'])
 @login_required
 def home_seller():
