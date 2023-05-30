@@ -59,7 +59,28 @@ def addProduct():
 def electronics():
     products = Products.query.filter_by(category="electronics")
     print(products)
-    return render_template("home_buyer.html", products=products, user = current_user)
+    return render_template("home_buyer.html", products=products, user=current_user)
+
+
+@views.route('/food')
+def food():
+    products = Products.query.filter_by(category="food")
+    print(products)
+    return render_template("home_buyer.html", products=products, user=current_user)
+
+
+@views.route('/shoes')
+def shoes():
+    products = Products.query.filter_by(category="shoes")
+    print(products)
+    return render_template("home_buyer.html", products=products, user=current_user)
+
+
+@views.route('/clothes')
+def clothes():
+    products = Products.query.filter_by(category="clothing")
+    print(products)
+    return render_template("home_buyer.html", products=products, user=current_user)
 
 
 @views.route('/editProduct/<int:id>', methods=['GET', 'POST'])
