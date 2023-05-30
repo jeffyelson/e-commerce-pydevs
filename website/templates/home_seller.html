@@ -1,7 +1,9 @@
 {% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
 content %}
-<h1>Hello, {{user.firstName}}</h1>
 
+<br>
+<h1>Hello, {{user.firstName}}</h1>
+<hr color="black">
 
 <div class="row">
     <div class="col-sm-6">
@@ -23,6 +25,8 @@ content %}
         </div>
     </div>
 </div>
+
+<hr color="black">
 
 <h1> Your products</h1>
 
@@ -85,24 +89,6 @@ content %}
     </table>
 </div>
 
-<div id="topdiv3">
-    {% if products %}
-    <div class="row">
-        {% for product in products %}
-        <div class="card needspace" style="width: 18rem;">
-            <img src="static/img/{{product.image}}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{product.name}}</h5>
-                <p class="card-text">{{product.category}}</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{product.description}}</li>
-                <li class="list-group-item">Price Range: {{product.price}}</li>
-            </ul>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-</div>
+
 
 {% endblock %}
