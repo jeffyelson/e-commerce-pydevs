@@ -123,3 +123,16 @@ def home_seller():
 def home_buyer():
     products = Products.query.all()
     return render_template("home_buyer.html", user=current_user, products=products)
+
+
+@views.route('/sort/price')
+def sort_by_price():
+    products = Products.query.order_by(Products.price).all()
+    return render_template("home_buyer.html", user=current_user, products=products)
+
+
+
+@views.route('/sort/name')
+def sort_by_name():
+    products = Products.query.order_by(Products.name).all()
+    return render_template("home_buyer.html", user=current_user, products=products)
