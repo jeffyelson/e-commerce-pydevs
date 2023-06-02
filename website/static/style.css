@@ -3,3 +3,51 @@
     font-family:Source Sans Pro, sans-serif;
     color: var(--grey-dark) !important;
 }
+
+.bg-image {
+    background-image: url("https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHx2aXN1YWwtc2VhcmNofDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60");
+    background-size: cover;
+    background-position: center;
+    height: 69vh; /* Adjust the height as needed */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+.summer_s{
+    font-size: 26px;
+    font-weight: 500;
+
+}
+#seventy_p{
+    font-size: 100px;
+    font-weight: bolder;
+  margin-top: -0.3em;
+    margin-left: 0;
+}
+.promo_c{
+    margin-top: 0em;
+    font-size: 20px;
+    font-weight: 500;
+}
+#shop_now{
+    border: none;
+    width: 10em;
+    padding: 20px;
+
+    font-size: 18px;
+    color: white;
+    background-color: rgb(20, 20, 20);
+    border-radius: 3px;
+
+margin-top: 20px;
+}
+#shop_now:active{
+    transform: scale(0.9);
+
+}
