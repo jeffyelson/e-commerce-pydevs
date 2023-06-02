@@ -119,7 +119,6 @@ def home_seller():
 
 
 @views.route('/buyer')
-@login_required
 def home_buyer():
     products = Products.query.all()
     return render_template("home_buyer.html", user=current_user, products=products)
