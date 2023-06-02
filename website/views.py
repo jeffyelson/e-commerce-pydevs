@@ -21,7 +21,7 @@ def saveImage(photo):
 @views.route('/')
 def home():
     products = Products.query.all()
-    return render_template("home_buyer.html", user=current_user, products=products)
+    return render_template("landingPage.html", user=current_user, products=products)
 
 
 @views.route('/result')
