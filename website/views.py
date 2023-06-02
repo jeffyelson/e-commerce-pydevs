@@ -91,7 +91,7 @@ def editProduct(id):
         result.description = request.form.get('description')
         result.price = request.form.get('price')
         result.stock = request.form.get('stock')
-        result.photo = saveImage(request.files.get('image'))
+        result.photo = request.files.get('image')
         db.session.commit()
         flash(f'Your product has been updated', 'success')
         products = Products.query.all()
@@ -129,7 +129,6 @@ def home_buyer():
 def sort_by_price():
     products = Products.query.order_by(Products.price).all()
     return render_template("home_buyer.html", user=current_user, products=products)
-
 
 
 @views.route('/sort/name')
