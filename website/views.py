@@ -205,3 +205,21 @@ def clearcart():
         return redirect(url_for('views.home_buyer'))
     except Exception as e:
         print(e)
+
+@views.route('/updatecart/<int:id>', methods=['POST'])
+def updateCart(id):
+    if 'shopping_cart' not in session or len(session['shopping_cart']) <= 0:
+        return redirect(url_for('views.home_buyer'))
+    if request.method == "POST":
+        quantity = int(request.form.get('quantity'))
+        try:
+            session.modified = True
+            for key, item in session['shopping_cart'].items():
+                if int(key) == id:
+                    item['quantity'] = quantity
+                    print(item['quantity'])
+                    flash('Your cart has been updated!')
+                    return redirect(url_for('views.getCart'))
+        except Exception as e:
+            print(e)
+            return redirect(url_for('views.getCart'))
