@@ -47,10 +47,12 @@
 
     <div class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
+        <a class="nav-item nav-link" id="cart" href="/cart">Cart ({{ session['shopping_cart']|length }})</a>
         <a class="nav-item nav-link " id="signout" href="/logout">Signout</a>
         {% else %}
         <a class="nav-item nav-link" id="login" href="/login">Login</a>
         <a class="nav-item nav-link" id="register" href="/register">Register</a>
+
         {% endif %}
     </div>
 </div>

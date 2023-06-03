@@ -1,5 +1,5 @@
 # defines that this page is the blueprint of the website.
-from flask import Blueprint, render_template, request, flash, current_app
+from flask import Blueprint, render_template, request, flash, current_app,session,redirect,url_for
 from flask_login import login_required, logout_user, current_user
 from .models import Products
 import os
@@ -134,3 +134,74 @@ def sort_by_price():
 def sort_by_name():
     products = Products.query.order_by(Products.name).all()
     return render_template("home_buyer.html", user=current_user, products=products)
+
+
+def mergeDictionary(dict01,dict02):
+    if isinstance(dict01, list) and isinstance(dict02, list):
+        return dict01 + dict02
+    if isinstance(dict01, dict) and isinstance(dict02, dict):
+        return dict(list(dict01.items()) + list(dict02.items()))
+
+@views.route('/cart', methods=['POST'])
+def addToCart():
+    try:
+        product_id = request.form.get('product_id')
+        quantity = int(request.form.get('quantity'))
+        product = Products.query.filter_by(id=product_id).first()
+        print(session)
+
+        if request.method == "POST":
+            dictItems = {product_id: {'name': product.name, 'price': float(product.price),
+                                      'quantity': quantity, 'image': product.image}}
+            if 'shopping_cart' in session:
+                print(session['shopping_cart'])
+                if product_id in session['shopping_cart']:
+                    for key, item in session['shopping_cart'].items():
+                        if int(key) == int(product_id):
+                            session.modified = True
+                            item['quantity'] += 1
+                else:
+                    session['shopping_cart'] = mergeDictionary(session['shopping_cart'], dictItems)
+                    return redirect(request.referrer)
+            else:
+                session['shopping_cart'] = dictItems
+                return redirect(request.referrer)
+    except Exception as e:
+        print(e)
+    finally:
+        return redirect(request.referrer)
+
+@views.route('/cart')
+def getCart():
+    if 'shopping_cart' not in session or len(session['shopping_cart']) <= 0:
+        return redirect(url_for('views.home_buyer'))
+    total = 0
+
+    for key,product in session['shopping_cart'].items():
+        total += float(product['price']) * int(product['quantity'])
+    print(total)
+
+    return render_template('cart.html',total=total,user=current_user)
+
+@views.route('/deleteitem/<int:id>')
+def deleteitem(id):
+    if 'shopping_cart' not in session or len(session['shopping_cart']) <= 0:
+        return redirect(url_for('views.home_buyer'))
+    try:
+        session.modified = True
+        for key , item in session['shopping_cart'].items():
+            if int(key) == id:
+                session['shopping_cart'].pop(key, None)
+                return redirect(url_for('views.getCart'))
+    except Exception as e:
+        print(e)
+        return redirect(url_for('views.getCart'))
+
+
+@views.route('/clearcart')
+def clearcart():
+    try:
+        session.pop('shopping_cart', None)
+        return redirect(url_for('views.home_buyer'))
+    except Exception as e:
+        print(e)

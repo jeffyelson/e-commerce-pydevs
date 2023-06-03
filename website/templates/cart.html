@@ -1,0 +1,50 @@
+{% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
+content %}
+<h1>Hello, {{user.firstName}}</h1>
+<section class="h-100" style="background-color: #eee;">
+  <div class="container h-100 py-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-10">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
+            <table class="table table-sm">
+            <thead>
+                <th>Sr</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Delete</th>
+            </thead>
+                <tbody>
+                {% for key, product in session['shopping_cart'].items() %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td><img src="static/img/{{product.image}}" class="card-img-top" alt="{{product.name}}" width="50" height="45"></td>
+                    <td>{{product.name}}</td>
+                    {% set subtotal = product.quantity|int * product.price|float  %}
+                    <td>${{"%.2f"|format(product.price)}}</td>
+                    <td> <input type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"> </td>
+                    {% set subtotal = product.quantity|int * product.price|float  %}
+                    <td>${{"%.2f"|format(subtotal) }}</td>
+                    <td> <a href="{{url_for('views.deleteitem', id=key)}}" class="btn btn-sm btn-danger">Delete</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+             <table class="table table-sm">
+           <tr>
+               <td width="35%"></td>
+               <td> <h5>Grand total: ${{total}}</h5> </td>
+                <td> <a href="{{url_for('views.clearcart')}}" class="btn btn-danger btn-sm float-right mr-4"> Clear cart</a> </td>
+           </tr>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
