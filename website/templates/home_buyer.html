@@ -1,25 +1,6 @@
 {% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
 content %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbar"
-    >
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbar">
-
-    <div class="navbar-nav ">
-        <a class="nav-item nav-link" id="electronics" href="/electronics">Electronics</a>
-        <a class="nav-item nav-link" id="food" href="/food">Food</a>
-        <a class="nav-item nav-link" id="clothing" href="/clothes">Clothing</a>
-        <a class="nav-item nav-link" id="shoes" href="/shoes">Shoes</a>
-    </div>
-</div>
-</nav>
 
 <h1 align="center">Available Products</h1>
 
@@ -41,7 +22,7 @@ content %}
                         <div class="row">
                             <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                                 <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                    <img src="static/img/{{product.image}}"
+                                    <img src="/static/img/{{product.image}}"
                                          class="w-100"/>
                                     <a href="#!">
                                         <div class="hover-overlay">
@@ -53,7 +34,7 @@ content %}
                             </div>
                             <div class="col-md-6 col-lg-6 col-xl-6">
                                 <h5>{{product.name}}</h5>
-
+                                <p class="discount">{{product.discount}}</p>
                                 <p class="text-truncate mb-4 mb-md-0">
                                     {{product.description}}
                                 </p>
