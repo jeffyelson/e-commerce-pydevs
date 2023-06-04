@@ -1,30 +1,273 @@
-{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
-%}
-<form method="POST">
-  <h3 align="center">Log in</h3>
-  <div class="form-group">
-    <label for="email">Email Address</label>
-    <input
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width-device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="sie-edge" />
+    <link href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <title>Slider Form</title>
+
+    <style>
+    @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #f6f5f7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: -20px 0 50px;
+     background-image: url("https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHx2aXN1YWwtc2VhcmNofDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60");
+    background-size: cover;
+}
+
+
+h1 {
+    font-weight: bold;
+    margin: 0;
+    color: beige;
+}
+
+p {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 20px 0 30px;
+}
+
+span {
+    font-size: 12px;
+    color: beige;
+}
+
+a {
+    color: #fff;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0;
+}
+
+.container {
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    position: absolute;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+    opacity: 1;
+}
+
+.form-container form {
+    background: rgb(205,176,123);
+    display: flex;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+.form-container input {
+    background: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
+}
+
+button,a {
+    border-radius: 20px;
+    border: 1px solid ;
+    background: rgb(20, 20, 20);
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+
+button:active {
+    transform: scale(0.95);
+}
+
+button:focus {
+    outline: :none;
+}
+
+::placeholder {
+        color: black;
+    }
+
+button.ghost {
+    background: transparent;
+    border-color: #ff4b2b;
+    background-color: #ff4b2b
+}
+
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.sign-up-container {
+    left: 0;
+    width: 50%;
+    z-index: 1;
+    opacity: 0;
+}
+
+.overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+}
+
+.overlay {
+    background: transparent;
+    background: rgb(43,57,40);
+    color: #fff;
+    position: absolute;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.overlay-panel {
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+    height: 100%;
+    width: 50%;
+    text-align: center;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.overlay-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.overlay-left {
+    transform: translateX(-20%);
+}
+
+
+  </style>
+</head>
+
+<body class="login">
+
+        <div class="container" id="container">
+            <div class="form-container sign-up-container">
+                <form method="POST">
+                    <h1 class="loginh1">Create Account</h1>
+                    <div class="social-container">
+                        <a href="#" class="social logina">
+                            <ion-icon name="logo-facebook"></ion-icon>
+                        </a>
+                        <a href="#" class="social ">
+                            <ion-icon name="logo-googleplus"></ion-icon>
+                        </a>
+                        <a href="#" class="social">
+                            <ion-icon name="logo-linkedin"></ion-icon>
+                        </a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <input type="text" placeholder="Name">
+                    <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Enter email"
+        />
+                 <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="Enter Password"
+        />
+                    <button >Sign Up</button>
+                </form>
+        </div>
+        <div class="form-container sign-in-container">
+           <form method="POST">
+                <h1 >Sign In</h1>
+                <p >to your one stop shop for everything</p>
+                <span >enter your details</span>
+                <input
       type="email"
       class="form-control"
       id="email"
       name="email"
       placeholder="Enter email"
     />
-  </div>
-
-  <div class="form-group">
-    <label for="password1">Password</label>
-    <input
+<input
       type="password"
       class="form-control"
       id="password"
       name="password"
       placeholder="Enter Password"
     />
-  </div>
+<button type="submit" >Sign In</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back</h1>
+                    <p class="loginp">To keep connected with us please login with your personal info</p>
+                    <button class="ghost" type="submit" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hey, There</h1>
+                    <p>Don't have an account with us?</p>
+                    <span> Create a account for free</span>
+                    <a class="ghost" href="/register" >Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+    <script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
+</body>
 
-  <br />
-  <button type="submit" class="btn btn-primary">Login</button>
-</form>
-{% endblock %}
+</html>
+

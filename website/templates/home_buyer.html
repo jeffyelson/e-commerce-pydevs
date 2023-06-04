@@ -34,7 +34,8 @@ content %}
                             </div>
                             <div class="col-md-6 col-lg-6 col-xl-6">
                                 <h5>{{product.name}}</h5>
-                                <p class="discount">{{product.discount}}</p>
+                                <p>Discount:</p>
+                                <p class="discount">{{product.discount}} %</p>
                                 <p class="text-truncate mb-4 mb-md-0">
                                     {{product.description}}
                                 </p>
@@ -74,7 +75,7 @@ content %}
     <div class="row">
         {% for product in products %}
         <div class="card needspace" style="width: 30rem;">
-            <img src="static/img/{{product.image}}" class="card-img-top" alt="...">
+            <img src="/static/img/{{product.image}}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{product.name}}</h5>
                 <p class="card-text">{{product.category}}</p>

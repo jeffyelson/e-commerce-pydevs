@@ -114,7 +114,7 @@ def deleteProduct(id):
 
 
 @views.route('/seller', methods=['GET', 'POST'])
-@login_required
+
 def home_seller():
     products = Products.query.filter_by(user_id=current_user.id)
     return render_template("home_seller.html", user=current_user, products=products)
