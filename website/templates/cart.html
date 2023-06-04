@@ -16,6 +16,7 @@ content %}
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Subtotal</th>
+                <th>Update</th>
                 <th>Delete</th>
             </thead>
                 <tbody>
@@ -24,11 +25,14 @@ content %}
                     <td>{{loop.index}}</td>
                     <td><img src="static/img/{{product.image}}" class="card-img-top" alt="{{product.name}}" width="50" height="45"></td>
                     <td>{{product.name}}</td>
-                    {% set subtotal = product.quantity|int * product.price|float  %}
-                    <td>${{"%.2f"|format(product.price)}}</td>
-                    <td> <input type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"> </td>
-                    {% set subtotal = product.quantity|int * product.price|float  %}
-                    <td>${{"%.2f"|format(subtotal) }}</td>
+                    <form action="{{url_for('views.updateCart', id=key)}}" method="post">
+                        {% set subtotal = product.quantity|int * product.price|float  %}
+                        <td>${{"%.2f"|format(product.price)}}</td>
+                        <td> <input type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"> </td>
+                        {% set subtotal = product.quantity|int * product.price|float  %}
+                        <td>${{"%.2f"|format(subtotal) }}</td>
+                        <td><button type="submit" class="btn btn-sm btn-info">Update</button> </td>
+                    </form>
                     <td> <a href="{{url_for('views.deleteitem', id=key)}}" class="btn btn-sm btn-danger">Delete</a></td>
                 </tr>
                 {% endfor %}
@@ -37,7 +41,7 @@ content %}
              <table class="table table-sm">
            <tr>
                <td width="35%"></td>
-               <td> <h5>Grand total: ${{total}}</h5> </td>
+               <td> <h5>Total Bill: ${{total}}</h5> </td>
                 <td> <a href="{{url_for('views.clearcart')}}" class="btn btn-danger btn-sm float-right mr-4"> Clear cart</a> </td>
            </tr>
         </table>
