@@ -39,12 +39,13 @@ def addProduct():
         description = request.form.get('description')
         price = request.form.get('price')
         stock = request.form.get('stock')
+        discount = request.form.get('discount')
         photo = saveImage(request.files.get('image'))
 
         print(category, name, description, price, photo)
 
         new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
-                               image=photo,
+                               image=photo, discount = discount,
                                user_id=current_user.id)
         db.session.add(new_product)
         db.session.commit()
@@ -92,6 +93,7 @@ def editProduct(id):
         result.price = request.form.get('price')
         result.stock = request.form.get('stock')
         result.photo = request.files.get('image')
+        result.discount = request.form.get('discount')
         db.session.commit()
         flash(f'Your product has been updated', 'success')
         products = Products.query.all()
