@@ -11,7 +11,11 @@ class Products(db.Model):
     description = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Integer)
     stock = db.Column(db.Integer)
-    image = db.Column(db.String(120), default='image.jpg')
+
+    image1 = db.Column(db.String(120), default='image.jpg')
+    image2 = db.Column(db.String(120), default='image.jpg')
+    image3 = db.Column(db.String(120), default='image.jpg')
+
     discount = db.Column(db.Integer)
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
