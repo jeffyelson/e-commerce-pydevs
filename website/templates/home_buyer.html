@@ -90,5 +90,25 @@ content %}
     {% endif %}
 </div>
 
+<div class="container">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-3">
+            <div class="card">
+                <img src="/static/img/{{product.image1}}" class="card-img-top" height="200">
+                <div class="card-body">
+                    <h5 class="text-center">{{product.name}}</h5>
+                    <p class="text=center">Price: €{{product.price}}</p>
+                    <div class="card-footer">
+                        <a href="#" class="float=left btn btn-sm btn-primary "> Details</a>
+                        <a href="#" class="float=right btn btn-sm btn-warning "> Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
 
 {% endblock %}
