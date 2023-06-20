@@ -1,5 +1,5 @@
 # defines that this page is the blueprint of the website.
-from flask import Blueprint, render_template, request, flash, current_app,session,redirect,url_for
+from flask import Blueprint, render_template, request, flash, current_app, session, redirect, url_for
 from flask_login import login_required, logout_user, current_user
 from .models import Products
 import os
@@ -22,6 +22,12 @@ def saveImage(photo):
 def home():
     products = Products.query.all()
     return render_template("landingPage.html", user=current_user, products=products)
+
+
+@views.route('/product/<int:id>')
+def detailsPage(id):
+    product = Products.query.get_or_404(id)
+    return render_template("details.html", product=product)
 
 
 @views.route('/result')
@@ -48,7 +54,7 @@ def addProduct():
         print(category, name, description, price, photo1)
 
         new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
-                               image1=photo1,image2=photo2,image3=photo3,discount = discount,
+                               image1=photo1, image2=photo2, image3=photo3, discount=discount,
                                user_id=current_user.id)
 
         db.session.add(new_product)
@@ -118,7 +124,6 @@ def deleteProduct(id):
 
 
 @views.route('/seller', methods=['GET', 'POST'])
-
 def home_seller():
     products = Products.query.filter_by(user_id=current_user.id)
     return render_template("home_seller.html", user=current_user, products=products)
@@ -126,8 +131,8 @@ def home_seller():
 
 @views.route('/buyer')
 def home_buyer():
-    page =  request.args.get('page',1,type=int)
-    products = Products.query.filter(Products.stock> 0).paginate(page=page, per_page=4)
+    page = request.args.get('page', 1, type=int)
+    products = Products.query.filter(Products.stock > 0).paginate(page=page, per_page=4)
     return render_template("home_buyer.html", user=current_user, products=products)
 
 
@@ -143,11 +148,12 @@ def sort_by_name():
     return render_template("home_buyer.html", user=current_user, products=products)
 
 
-def mergeDictionary(dict01,dict02):
+def mergeDictionary(dict01, dict02):
     if isinstance(dict01, list) and isinstance(dict02, list):
         return dict01 + dict02
     if isinstance(dict01, dict) and isinstance(dict02, dict):
         return dict(list(dict01.items()) + list(dict02.items()))
+
 
 @views.route('/cart', methods=['POST'])
 def addToCart():
@@ -178,17 +184,19 @@ def addToCart():
     finally:
         return redirect(request.referrer)
 
+
 @views.route('/cart')
 def getCart():
     if 'shopping_cart' not in session or len(session['shopping_cart']) <= 0:
         return redirect(url_for('views.home_buyer'))
     total = 0
 
-    for key,product in session['shopping_cart'].items():
+    for key, product in session['shopping_cart'].items():
         total += float(product['price']) * int(product['quantity'])
     print(total)
 
-    return render_template('cart.html',total=total,user=current_user)
+    return render_template('cart.html', total=total, user=current_user)
+
 
 @views.route('/deleteitem/<int:id>')
 def deleteitem(id):
@@ -196,7 +204,7 @@ def deleteitem(id):
         return redirect(url_for('views.home_buyer'))
     try:
         session.modified = True
-        for key , item in session['shopping_cart'].items():
+        for key, item in session['shopping_cart'].items():
             if int(key) == id:
                 session['shopping_cart'].pop(key, None)
                 return redirect(url_for('views.getCart'))
@@ -212,6 +220,7 @@ def clearcart():
         return redirect(url_for('views.home_buyer'))
     except Exception as e:
         print(e)
+
 
 @views.route('/updatecart/<int:id>', methods=['POST'])
 def updateCart(id):
