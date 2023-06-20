@@ -40,13 +40,17 @@ def addProduct():
         price = request.form.get('price')
         stock = request.form.get('stock')
         discount = request.form.get('discount')
-        photo = saveImage(request.files.get('image'))
 
-        print(category, name, description, price, photo)
+        photo1 = saveImage(request.files.get('image1'))
+        photo2 = saveImage(request.files.get('image2'))
+        photo3 = saveImage(request.files.get('image3'))
+
+        print(category, name, description, price, photo1)
 
         new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
-                               image=photo, discount = discount,
+                               image1=photo1,image2=photo2,image3=photo3,discount = discount,
                                user_id=current_user.id)
+
         db.session.add(new_product)
         db.session.commit()
         flash('Product posted!', category='success')
@@ -92,7 +96,7 @@ def editProduct(id):
         result.description = request.form.get('description')
         result.price = request.form.get('price')
         result.stock = request.form.get('stock')
-        result.photo = request.files.get('image')
+        result.photo = request.files.get('image1')
         result.discount = request.form.get('discount')
         db.session.commit()
         flash(f'Your product has been updated', 'success')
