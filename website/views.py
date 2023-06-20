@@ -126,7 +126,8 @@ def home_seller():
 
 @views.route('/buyer')
 def home_buyer():
-    products = Products.query.all()
+    page =  request.args.get('page',1,type=int)
+    products = Products.query.filter(Products.stock> 0).paginate(page=page, per_page=4)
     return render_template("home_buyer.html", user=current_user, products=products)
 
 
