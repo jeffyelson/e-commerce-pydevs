@@ -24,12 +24,6 @@ def home():
     return render_template("landingPage.html", user=current_user, products=products)
 
 
-@views.route('/product/<int:id>')
-def detailsPage(id):
-    product = Products.query.get_or_404(id)
-    return render_template("details.html", product=product)
-
-
 @views.route('/result')
 def searchResult():
     query = request.args.get('q')
@@ -134,6 +128,12 @@ def home_buyer():
     page = request.args.get('page', 1, type=int)
     products = Products.query.filter(Products.stock > 0).paginate(page=page, per_page=4)
     return render_template("home_buyer.html", user=current_user, products=products)
+
+
+@views.route('/product/<int:id>')
+def detailsPage(id):
+    product = Products.query.get_or_404(id)
+    return render_template("details.html", product=product, user=current_user)
 
 
 @views.route('/sort/price')
