@@ -100,7 +100,7 @@ content %}
                     <h5 class="text-center">{{product.name}}</h5>
                     <p class="text=center">Price: €{{product.price}}</p>
                     <div class="card-footer">
-                        <a href="#" class="float=left btn btn-sm btn-primary "> Details</a>
+                        <a href="url_for('views.detailsPage', id =product.id)" class="float=left btn btn-sm btn-primary "> Details</a>
                         <a href="#" class="float=right btn btn-sm btn-warning "> Add to Cart</a>
                     </div>
                 </div>
