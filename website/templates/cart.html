@@ -28,7 +28,17 @@ content %}
                     <form action="{{url_for('views.updateCart', id=key)}}" method="post">
                         {% set subtotal = product.quantity|int * product.price|float  %}
                         <td>${{"%.2f"|format(product.price)}}</td>
-                        <td> <input type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"> </td>
+                      <td> <h5>Total Bill: ${{total}}</h5> </td>
+                <td> <a href="{{url_for('views.clearcart')}}" class="btn btn-danger btn-sm float-right mr-4"> Clear cart</a> </td>
+           </tr>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}                 <td> <input type="number" name="quantity" min="1" max="10" value="{{product.quantity}}"> </td>
                         {% set subtotal = product.quantity|int * product.price|float  %}
                         <td>${{"%.2f"|format(subtotal) }}</td>
                         <td><button type="submit" class="btn btn-sm btn-info">Update</button> </td>
@@ -41,14 +51,3 @@ content %}
              <table class="table table-sm">
            <tr>
                <td width="35%"></td>
-               <td> <h5>Total Bill: ${{total}}</h5> </td>
-                <td> <a href="{{url_for('views.clearcart')}}" class="btn btn-danger btn-sm float-right mr-4"> Clear cart</a> </td>
-           </tr>
-        </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-{% endblock %}

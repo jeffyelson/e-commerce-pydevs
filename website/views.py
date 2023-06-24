@@ -5,6 +5,7 @@ from .models import Products
 import os
 import secrets
 from . import db
+import json
 
 views = Blueprint('views', __name__)
 
@@ -97,6 +98,7 @@ def editProduct(id):
         result.price = request.form.get('price')
         result.stock = request.form.get('stock')
         result.photo = request.files.get('image1')
+        result.offers = result.offers + "," + str(result.discount)
         result.discount = request.form.get('discount')
         db.session.commit()
         flash(f'Your product has been updated', 'success')

@@ -19,6 +19,8 @@ class Products(db.Model):
     discount = db.Column(db.Integer)
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    offers = db.Column(db.String(120), default="0",nullable=False)
+    offer_img = db.Column(db.String(120), default='image.jpg')
 
 
 # seller homepage
