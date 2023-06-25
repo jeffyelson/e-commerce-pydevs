@@ -30,6 +30,16 @@ content %}
 
 <h1> Your products</h1>
 
+<h1>Messages with Buyers</h1>
+
+<ul>
+  {% for buyer in buyers %}
+    <li>
+      {{ buyer.firstName }}
+      <a href="{{ url_for('views.messages', buyer_id=buyer.id) }}">View Messages</a>
+    </li>
+  {% endfor %}
+</ul>
 
 <div class="container">
     <table class="table table-sm">
