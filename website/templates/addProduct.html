@@ -1,4 +1,5 @@
-
+{% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
+content %}
 <br>
 <div class="card w-75 ">
     <form class="card-body" action="{{ url_for('views.addProduct') }}" method="POST" enctype="multipart/form-data">
@@ -51,3 +52,5 @@
         <button type="submit" class="btn btn-primary">Add</button>
     </form>
 </div>
+
+{% endblock %}
