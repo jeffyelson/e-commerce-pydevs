@@ -71,15 +71,11 @@ content %}
     {% endif %}
 </div>
 
-{% if current_user.is_authenticated and current_user.userType == 'buyer' %}
-  <li class="nav-item">
-    <a class="nav-link" href="{{ url_for('views.sellers_list') }}">Sellers</a>
-  </li>
-{% endif %}
+
 
 <div class="container">
     <div class="row">
-        {% for product in products.items %}
+        {% for product in products %}
         <div class="col-md-3">
             <div class="card">
                 <img src="/static/img/{{product.image1}}" class="card-img-top" height="200">
@@ -94,32 +90,9 @@ content %}
             </div>
         </div>
         {% endfor %}
-        <div class="row">
-            <div class="col text-center">
-                {% if products.has_prev %}
-                 <a href="{url_for('views.home_buyer', page= products.prev_num}}" class="btn btn-outline-info btn-sm mt-3">Previous</a>
-                {% endif %}
-                 {% for page_num in products.iter_pages() %}
-                {% if page_num%}
-                {% if products.page == page_num %}
-                 <a href="{{url_for('views.home_buyer', page= page_num)}}" class="btn btn-info btn-sm mt-3">{{page_num}}</a>
-                {% else %}
-                     <a href="{{url_for('views.home_buyer', page= page_num)}}" class="btn btn-outline-info btn-sm mt-3">{{page_num}}</a>
-                {% endif %}
-                {% else %}
-                ...
-                {% endif %}
-                 {% endfor %}
-                {% if products.has_next %}
-                 <a href="{{url_for('views.home_buyer', page= products.next_num)}}" class="btn btn-outline-info btn-sm mt-3">Next</a>
-                {% endif %}
-            </div>
-        </div>
+
 
     </div>
 </div>
-
-
-
 
 {% endblock %}
