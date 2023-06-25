@@ -31,7 +31,7 @@ def home():
 def searchResult():
     query = request.args.get('q')
     products = Products.query.msearch(query, fields=['name', 'description'])
-    return render_template("searchResult.html", products=products)
+    return render_template("searchResult.html",  user=current_user, products=products)
 
 
 @views.route('/addProduct', methods=['GET', 'POST'])
@@ -124,7 +124,8 @@ def deleteProduct(id):
 @views.route('/seller', methods=['GET', 'POST'])
 def home_seller():
     products = Products.query.filter_by(user_id=current_user.id)
-    return render_template("home_seller.html", user=current_user, products=products)
+    buyers = User.query.filter_by(userType='buyer').all()
+    return render_template("home_seller.html", user=current_user, products=products, buyers=buyers)
 
 
 @views.route('/buyer')
@@ -182,6 +183,46 @@ def chat(seller_id):
     ).order_by(Message.timestamp.asc()).all()
 
     return render_template('chat.html', seller=seller, messages=messages, user=current_user)
+
+
+@views.route('/messages/<int:buyer_id>')
+@login_required
+def messages(buyer_id):
+    buyer = User.query.get(buyer_id)
+    if not buyer:
+        flash('Buyer not found.', category='error')
+        return redirect(url_for('views.home'))
+
+    # Fetch messages between current user (seller) and the buyer
+    messages = Message.query.filter(
+        db.or_(
+            db.and_(Message.sender_id == current_user.id, Message.recipient_id == buyer_id),
+            db.and_(Message.sender_id == buyer_id, Message.recipient_id == current_user.id)
+        )
+    ).order_by(Message.timestamp.asc()).all()
+
+    return render_template('messages.html', buyer=buyer, messages=messages, user=current_user)
+
+
+@views.route('/send_message/<int:buyer_id>', methods=['POST'])
+@login_required
+def send_message(buyer_id):
+    buyer = User.query.get(buyer_id)
+    if not buyer:
+        flash('Buyer not found.', category='error')
+        return redirect(url_for('views.home_seller'))
+
+    message_content = request.form.get('message')
+    if not message_content:
+        flash('Message content cannot be empty.', category='error')
+        return redirect(url_for('views.messages', buyer_id=buyer_id))
+
+    new_message = Message(sender_id=current_user.id, recipient_id=buyer_id, content=message_content)
+    db.session.add(new_message)
+    db.session.commit()
+
+    flash('Message sent successfully.', category='success')
+    return redirect(url_for('views.messages', buyer_id=buyer_id))
 
 
 @views.route('/sort/price')

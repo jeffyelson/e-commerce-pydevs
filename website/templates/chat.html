@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Chat with {{ seller.firstName }}{% endblock %}
+
+{% block content %}
+  <h1>Chat with {{ seller.firstName }}</h1>
+  
+  <!-- Display messages -->
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="message">
+          <p>{{ message.content }}</p>
+          <small>{{ message.timestamp }}</small>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+  <!-- Message input form -->
+  <form method="post" action="{{ url_for('views.chat', seller_id=seller.id) }}">
+    <textarea name="content" placeholder="Type your message..."></textarea>
+    <button type="submit">Send</button>
+  </form>
+{% endblock %}

@@ -19,13 +19,9 @@ class Products(db.Model):
     discount = db.Column(db.Integer)
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    offers = db.Column(db.String(120), default="0",nullable=False)
+    offers = db.Column(db.String(120), default="0", nullable=False)
     offer_img = db.Column(db.String(120), default='image.jpg')
 
-
-# seller homepage
-# price,stock, name a-z
-# top 5 products seller.
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,3 +30,13 @@ class User(db.Model, UserMixin):
     userType = db.Column(db.String(20))
     firstName = db.Column(db.String(150))
     products = db.relationship('Products')
+    messages_sent = db.relationship('Message', backref='sender', foreign_keys='Message.sender_id')
+    messages_received = db.relationship('Message', backref='recipient', foreign_keys='Message.recipient_id')
+
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    content = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, default=func.now())
