@@ -1,7 +1,9 @@
 # defines that this page is the blueprint of the website.
 from flask import Blueprint, render_template, request, flash, current_app, session, redirect, url_for
 from flask_login import login_required, logout_user, current_user
-from .models import Products
+from sqlalchemy import func
+
+from .models import Products, Message, User
 import os
 import secrets
 from . import db
@@ -129,13 +131,57 @@ def home_seller():
 def home_buyer():
     page = request.args.get('page', 1, type=int)
     products = Products.query.filter(Products.stock > 0).paginate(page=page, per_page=4)
-    return render_template("home_buyer.html", user=current_user, products=products)
+
+    if current_user.is_authenticated:
+        messages = Message.query.filter(
+            (Message.sender_id == current_user.id) |
+            (Message.recipient_id == current_user.id)
+        ).order_by(Message.timestamp.desc()).limit(10).all()
+    else:
+        messages = None
+
+    return render_template("home_buyer.html", user=current_user, products=products, messages=messages)
 
 
 @views.route('/product/<int:id>')
 def detailsPage(id):
     product = Products.query.get_or_404(id)
     return render_template("details.html", product=product, user=current_user)
+
+
+@views.route('/sellers')
+@login_required
+def sellers_list():
+    sellers = User.query.filter_by(userType="seller").all()
+    return render_template('sellers.html', user=current_user, sellers=sellers)
+
+
+@views.route('/chat/<int:seller_id>', methods=['GET', 'POST'])
+@login_required
+def chat(seller_id):
+    seller = User.query.get_or_404(seller_id)
+
+    if request.method == 'POST':
+        recipient_id = seller_id
+        content = request.form.get('content')
+
+        if content:
+            new_message = Message(
+                sender_id=current_user.id,
+                recipient_id=recipient_id,
+                content=content,
+                timestamp=func.now()
+            )
+            db.session.add(new_message)
+            db.session.commit()
+            flash('Message sent!', category='success')
+
+    messages = Message.query.filter(
+        ((Message.sender_id == current_user.id) & (Message.recipient_id == seller_id)) |
+        ((Message.sender_id == seller_id) & (Message.recipient_id == current_user.id))
+    ).order_by(Message.timestamp.asc()).all()
+
+    return render_template('chat.html', seller=seller, messages=messages, user=current_user)
 
 
 @views.route('/sort/price')
