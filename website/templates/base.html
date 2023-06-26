@@ -18,12 +18,15 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <title >{% block title %}Home{% endblock %}</title>
     <link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+
 
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-info ">
+<nav class="navbar navbar-expand-lg navbar-dark ">
     <button
             class="navbar-toggler"
             type="button"
@@ -62,6 +65,7 @@
 </div>
 </nav>
 
+<!--
 <nav class="navbar navbar-expand-lg navbar-dark ">
     <button
             class="navbar-toggler"
@@ -107,7 +111,34 @@
 
     </div>
 </nav>
+-->
+<div class="topnav" id="myTopnav">
+  <div class="dropdown">
+    <a class="dropbtn" href="/electronics">Dogs
+    </a>
+  </div>
 
+  <div class="dropdown">
+    <a class="dropbtn" href="/shoes">Cats
+    </a>
+  </div>
+
+  <div class="dropdown">
+    <a class="dropbtn" href="/food">Small Animals
+    </a>
+  </div>
+
+  <div class="dropdown">
+    <a class="dropbtn" href="/food">Birds
+    </a>
+  </div>
+
+  <div class="dropdown">
+    <a class="dropbtn" href="/food">Special Offers
+    </a>
+  </div>
+</div>
+</div>
 
 
 
@@ -146,5 +177,6 @@ messages %} {% for category, message in messages %} {% if category ==
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"
 ></script>
+
 </body>
 </html>
