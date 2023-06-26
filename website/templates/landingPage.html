@@ -1,6 +1,45 @@
 {% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
 content %}
-<div class="bg-imagee">
+
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/static/img/dog.jpg" class="d-block w-100" alt="Dog Food">
+            <div class="carousel-caption">
+                <h5>Dog Food</h5>
+                <p>High-quality food for dogs</p>
+            </div>
+        </div>
+         <div class="carousel-item">
+            <img src="/static/img/parrot.jpeg" class="d-block w-100" alt="Dog Food">
+            <div class="carousel-caption">
+                <h5>Cat Food</h5>
+                <p>Nutritious food for cats</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/static/img/dog2.jpeg" class="d-block w-100" alt="Dog Food">
+            <div class="carousel-caption">
+                <h5>Cat Food</h5>
+                <p>Nutritious food for cats</p>
+            </div>
+        </div>
+
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+
+
+<!--<div class="bg-imagee">
     <p class="summer_s">Your Go To</p>
     <h1 id="seventy_p">SHOP</h1>
     <p class="promo_c">every day, every season</p>
@@ -10,5 +49,5 @@ content %}
             <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
         </svg>
     </a>
-</div>
+</div>-->
 {% endblock %}
