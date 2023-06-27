@@ -57,29 +57,15 @@ content %}
 <span class="fa fa-star checked"></span>
 <span class="fa fa-star"></span>
 <span class="fa fa-star"></span>
-(930)
-</span>
-        <span class="btn2">Fast Sold</span>
-    </div>
-
-       <div class="discount-card">
-        <img src="/static/img/{{product.image1}}" alt="Product">
-        <a href="#" class="like-button"><i class="fa fa-heart-o"></i></a>
-        <span class="title">{{product.name}}</span>
-        <span class="rating">
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
 (1,030)
 </span>
-        <span class="btn1"><i class="fa fa-rupee"></i>{{product.price - product.price*product.discount/100}}</span> <strike><i class="fa fa-rupee"></i>{{product.price}}</strike>
+        <span class="btn1"><i class="fa fa-rupee"></i>{{product.price - product.price*product.discount/100}}</span>
+        <strike><i class="fa fa-rupee"></i>{{product.price}}</strike>
     </div>
 
-
+    {% endfor %}
 </section>
-{% endfor %}
+
 
 <!--<div class="bg-imagee">
     <p class="summer_s">Your Go To</p>
