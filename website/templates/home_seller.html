@@ -54,7 +54,7 @@ content %}
             <td>{{product.category}}</td>
             <td>{{product.discount}}</td>
 
-            <td><img src="static/img/{{product.image1}}" class="card-img-top" width="40" height="50" alt="..."></td>
+            <td><img src="/static/img/{{product.image1}}" class="card-img-top" width="40" height="50" alt="..."></td>
             <td><a href="{{url_for('views.editProduct', id=product.id)}}" class="btn btn-info btn-sm">Edit</a></td>
             <td>
                 <!-- Button trigger modal -->
@@ -93,18 +93,6 @@ content %}
         </tbody>
     </table>
 </div>
-
-
-<h1>Messages with Buyers</h1>
-
-<ul>
-  {% for buyer in buyers %}
-    <li>
-      {{ buyer.firstName }}
-      <a href="{{ url_for('views.messages', buyer_id=buyer.id) }}">View Messages</a>
-    </li>
-  {% endfor %}
-</ul>
 
 
 {% endblock %}
