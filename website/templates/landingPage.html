@@ -47,6 +47,7 @@ content %}
     <button class="previous" onclick='scrollleft4()'><i class="fa fa-angle-left"></i></button>
 </div>
 {% for product in products %}
+{% if product.discount > 0%}
 <section class="section4" id="section4">
     <div class="discount-card">
         <img class="product-image" src="/static/img/{{product.image1}}" alt="Product">
@@ -57,7 +58,7 @@ content %}
         <span class="btn1"><i class="fa fa-rupee"></i>{{product.price - product.price*product.discount/100}}</span>
         <strike><i class="fa fa-rupee"></i>{{product.price}}</strike>
     </div>
-
+{% endif %}
     {% endfor %}
 </section>
 
