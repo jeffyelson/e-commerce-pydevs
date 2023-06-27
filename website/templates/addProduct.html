@@ -65,13 +65,12 @@
     }
 </style>
 
-<br>
 <div class="card w-75 form-border">
-    <form class="card-body" action="{{ url_for('views.addProduct') }}" method="POST" enctype="multipart/form-data">
+    <form class="card-body" action="{{ url_for('views.addProduct') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
         <h5 class="card-title centered-text">Add New Product</h5>
         <div class="form-group">
             <label>Category</label>
-            <select name="category" id="category">
+            <select name="category" id="category" required>
                 <option value="" selected disabled hidden>Choose here</option>
                 <option id="dogs" value="dogs">Dogs</option>
                 <option id="cats" value="cats">Cats</option>
@@ -85,23 +84,23 @@
         </div>
         <div class="form-group">
             <label>Description</label>
-            <textarea id="description" name="description" rows="4" cols="90"></textarea>
+            <textarea id="description" name="description" rows="4" cols="90" required></textarea>
         </div>
         <div class="form-group">
-            <label>Price: </label>
-            <input type="number" id="price" name="price">
+            <label>Price:</label>
+            <input type="number" id="price" name="price" required>
         </div>
         <div class="form-group">
-            <label>Stock: </label>
-            <input type="number" id="stock" name="stock">
+            <label>Stock:</label>
+            <input type="number" id="stock" name="stock" required>
         </div>
         <div class="form-group">
-            <label>Discount: </label>
-            <input type="number" id="discount" name="discount">
+            <label>Discount:</label>
+            <input type="number" id="discount" name="discount" required>
         </div>
         <div class="form-group">
             <label>Product Image 1</label>
-            <input type="file" class="form-control-file" id="image1" name="image1" accept="image/">
+            <input type="file" class="form-control-file" id="image1" name="image1" accept="image/" required>
         </div>
         <div class="form-group">
             <label>Product Image 2</label>
@@ -111,10 +110,30 @@
             <label>Product Image 3</label>
             <input type="file" class="form-control-file" id="image3" name="image3" accept="image/">
         </div>
-<div class="form-group text-center">
-        <button type="submit" class="btn btn-primary">Add</button>
-</div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
     </form>
 </div>
+
+<script>
+    function validateForm() {
+        // Perform additional validations here if needed
+        var category = document.getElementById("category").value;
+        var name = document.getElementById("name").value;
+        var description = document.getElementById("description").value;
+        var price = document.getElementById("price").value;
+        var stock = document.getElementById("stock").value;
+        var discount = document.getElementById("discount").value;
+        var image1 = document.getElementById("image1").value;
+
+        if (category === "" || name === "" || description === "" || price === "" || stock === "" || discount === "" || image1 === "") {
+            alert("Please fill in all the required fields.");
+            return false;
+        }
+
+        return true;
+    }
+</script>
 
 {% endblock %}
