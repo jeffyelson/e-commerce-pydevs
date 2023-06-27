@@ -130,8 +130,8 @@ def home_seller():
 
 @views.route('/buyer')
 def home_buyer():
-    page = request.args.get('page', 1, type=int)
-    products = Products.query.filter(Products.stock > 0).paginate(page=page, per_page=4)
+
+    products = Products.query.filter(Products.stock > 0)
 
     if current_user.is_authenticated:
         messages = Message.query.filter(
