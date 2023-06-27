@@ -1,25 +1,86 @@
 {% extends "base.html" %}
 
-{% block title %}Chat with {{ seller.firstName }}{% endblock %}
+{% block title %}Messages{% endblock %}
 
 {% block content %}
-  <h1>Chat with {{ seller.firstName }}</h1>
-  
-  <!-- Display messages -->
-  {% if messages %}
-    <div class="messages">
-      {% for message in messages %}
-        <div class="message">
-          <p>{{ message.content }}</p>
-          <small>{{ message.timestamp }}</small>
+  <h1>Messages with {{ buyer.firstName }}</h1>
+
+  <div class="chat-container">
+    {% for message in messages %}
+      {% if message.sender.id == current_user.id %}
+        <div class="my-message">
+          <p class="content">{{ message.content }}</p>
+          <small class="timestamp">{{ message.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</small>
         </div>
-      {% endfor %}
-    </div>
-  {% endif %}
-  
-  <!-- Message input form -->
-  <form method="post" action="{{ url_for('views.chat', seller_id=seller.id) }}">
-    <textarea name="content" placeholder="Type your message..."></textarea>
+      {% else %}
+        <div class="other-message">
+          <p class="content">{{ message.content }}</p>
+          <small class="timestamp">{{ message.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</small>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <form action="{{ url_for('views.send_message', buyer_id=buyer.id) }}" method="POST" class="message-form">
+    <textarea name="message" rows="4" cols="50" placeholder="Type your message"></textarea>
     <button type="submit">Send</button>
   </form>
+
+
+
+<style>
+  .chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.my-message {
+  background-color: #dcf8c6;
+  padding: 10px;
+  border-radius: 8px;
+  align-self: flex-end;
+}
+
+.other-message {
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 8px;
+  align-self: flex-start;
+}
+
+.content {
+  margin: 5px 0;
+}
+
+.timestamp {
+  color: gray;
+}
+
+.message-form {
+  display: flex;
+  gap: 10px;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+
+</style>
 {% endblock %}
