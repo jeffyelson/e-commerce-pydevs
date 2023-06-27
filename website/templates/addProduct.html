@@ -1,30 +1,91 @@
-{% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
-content %}
-
+{% extends "base.html" %}
+{% block title %}HomePage{% endblock %}
 {% block topnav %}{% endblock %}
+{% block content %}
+
+<style>
+    .form-border {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        width: 80%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    @media (max-width: 768px) {
+        .form-border {
+            width: 100%;
+        }
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+
+    input[type="text"],
+    input[type="number"],
+    input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+
+    .btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+
 <br>
-<div class="card w-75 ">
+<div class="card w-75 form-border">
     <form class="card-body" action="{{ url_for('views.addProduct') }}" method="POST" enctype="multipart/form-data">
-        <h5 class="card-title">Add New Item</h5>
+        <h5 class="card-title centered-text">Add New Product</h5>
         <div class="form-group">
             <label>Category</label>
             <select name="category" id="category">
                 <option value="" selected disabled hidden>Choose here</option>
-                <option id="electronics" value="electronics">Electronics</option>
-                <option id="food" value="food">Food</option>
-                <option id="clothing" value="clothing">Clothing</option>
-                <option id="shoes" value="shoes">Shoes</option>
+                <option id="dogs" value="dogs">Dogs</option>
+                <option id="cats" value="cats">Cats</option>
+                <option id="birds" value="birds">Birds</option>
+                <option id="smallAnimals" value="smallAnimals">Small Animals</option>
             </select>
         </div>
         <div class="form-group">
-            <label>Name</label>
+            <label>Title of the Product</label>
             <input type="text" class="form-control" id="name" name="name" required>
         </div>
         <div class="form-group">
             <label>Description</label>
-            <br>
-            <textarea id="description" name="description" rows="4" cols="90">
-                </textarea>
+            <textarea id="description" name="description" rows="4" cols="90"></textarea>
         </div>
         <div class="form-group">
             <label>Price: </label>
@@ -42,16 +103,17 @@ content %}
             <label>Product Image 1</label>
             <input type="file" class="form-control-file" id="image1" name="image1" accept="image/">
         </div>
-         <div class="form-group">
+        <div class="form-group">
             <label>Product Image 2</label>
             <input type="file" class="form-control-file" id="image2" name="image2" accept="image/">
         </div>
-         <div class="form-group">
+        <div class="form-group">
             <label>Product Image 3</label>
             <input type="file" class="form-control-file" id="image3" name="image3" accept="image/">
         </div>
-
+<div class="form-group text-center">
         <button type="submit" class="btn btn-primary">Add</button>
+</div>
     </form>
 </div>
 
