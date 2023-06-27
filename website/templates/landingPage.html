@@ -9,11 +9,11 @@ content %}
                 <h5 id="seventy_p1">Dog Food</h5>
                 <p class="summer_s">High-quality food for dogs</p>
                 <a id="shop_now" href="/buyer" type="submit" name="shop now">Shop now
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-             class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
-            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
-        </svg>
-    </a>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+                        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                    </svg>
+                </a>
 
             </div>
         </div>
@@ -38,8 +38,48 @@ content %}
         <span class="visually-hidden">Next</span>
     </button>
 </div>
+<div class="section4-header">
+
+    <span class="title centered-text">DISCOUNT CORNER</span>
+    <a href="/buyer" class="btn1 viewmore">View More</a>
+    <button class="next" onclick='scrollright4()'><i class="fa fa-angle-right"></i></button>
+    <button class="previous" onclick='scrollleft4()'><i class="fa fa-angle-left"></i></button>
+</div>
+{% for product in products %}
+<section class="section4" id="section4">
+    <div class="discount-card">
+        <img src="/static/img/{{product.image1}}" alt="Product">
+        <a href="#" class="like-button"><i class="fa fa-heart-o"></i></a>
+        <span class="title">{{product.name}}</span>
+        <span class="rating">
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+(930)
+</span>
+        <span class="btn2">Fast Sold</span>
+    </div>
+
+       <div class="discount-card">
+        <img src="/static/img/{{product.image1}}" alt="Product">
+        <a href="#" class="like-button"><i class="fa fa-heart-o"></i></a>
+        <span class="title">{{product.name}}</span>
+        <span class="rating">
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+(1,030)
+</span>
+        <span class="btn1"><i class="fa fa-rupee"></i>{{product.price - product.price*product.discount/100}}</span> <strike><i class="fa fa-rupee"></i>{{product.price}}</strike>
+    </div>
 
 
+</section>
+{% endfor %}
 
 <!--<div class="bg-imagee">
     <p class="summer_s">Your Go To</p>
