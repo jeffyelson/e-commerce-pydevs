@@ -182,7 +182,7 @@ def chat(seller_id):
         ((Message.sender_id == seller_id) & (Message.recipient_id == current_user.id))
     ).order_by(Message.timestamp.asc()).all()
 
-    return render_template('chat.html', seller=seller, messages=messages, user=current_user)
+    return render_template('chat.html', buyer=seller, messages=messages, user=current_user)
 
 
 @views.route('/messages/<int:buyer_id>')
