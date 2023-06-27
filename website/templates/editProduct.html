@@ -1,50 +1,62 @@
-{% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
-content %}
+{% extends "base.html" %}
+{% block title %}HomePage{% endblock %}
+{% block content %}
+{% block topnav %}{% endblock %}
 <br>
-<div class="card w-75 ">
-    <form class="card-body" action="" method="POST" enctype="multipart/form-data">
-        <h5 class="card-title">Add New Item</h5>
-        <div class="form-group">
-
-            <label>Category</label>
-            <select class="form-control" name="category">
-                <option value="{{ category }}" selected>{{ result.category }}</option>
-
-
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="exampleFormControlTextarea1">Product Name</label>
-            <textarea class="form-control" rows="1" name="name" required>{{result.name}}</textarea>
-        </div>
-        <div class="form-group">
-            <label for="exampleFormControlTextarea1">Description</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" name="description" required>{{result.description}}</textarea>
-        </div>
-        <div class="form-group">
-            <label for="exampleFormControlTextarea1">Price</label>
-            <textarea class="form-control" rows="1" name="price" required>{{result.price}}</textarea>
-        </div>
-        <div class="form-group">
-            <label for="exampleFormControlTextarea1">Stock</label>
-            <textarea class="form-control" rows="1" name="price" required>{{result.stock}}</textarea>
-        </div>
-                <div class="form-group">
-            <label for="exampleFormControlTextarea1">Discount</label>
-            <textarea class="form-control" rows="1" name="discount" required>{{result.discount}}</textarea>
-        </div>
-
-        <div class="form-group">
-            <label>Product Image</label>
-            <input type="file" class="form-control-file" id="image" name="image" accept="image/">
-            {% if result.image %}
-            <br>
-            <img src="{{ url_for('static', filename='img/' + result.image) }}" alt="Product Image" width="100"
-                 height="100">
-            {% endif %}
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
+<div class="card w-75">
+  <form class="card-body border rounded" action="" method="POST" enctype="multipart/form-data">
+    <h5 class="card-title centered-text">Update Product</h5>
+    <div class="form-group">
+      <label>Category</label>
+      <select class="form-control" name="category">
+        <option value="{{ category }}" selected>{{ result.category }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="productName">Product Name</label>
+      <input type="text" class="form-control" id="productName" name="name" value="{{ result.name }}" required>
+    </div>
+    <div class="form-group">
+      <label for="productDescription">Description</label>
+      <textarea class="form-control" id="productDescription" rows="3" name="description" required>{{ result.description }}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="productPrice">Price</label>
+      <input type="text" class="form-control" id="productPrice" name="price" value="{{ result.price }}" required>
+    </div>
+    <div class="form-group">
+      <label for="productStock">Stock</label>
+      <input type="text" class="form-control" id="productStock" name="stock" value="{{ result.stock }}" required>
+    </div>
+    <div class="form-group">
+      <label for="productDiscount">Discount</label>
+      <input type="text" class="form-control" id="productDiscount" name="discount" value="{{ result.discount }}" required>
+    </div>
+    <div class="form-group">
+      <label>Product Image 1</label>
+      <input type="file" class="form-control-file" id="image1" name="image1" accept="image/">
+      {% if result.image1 %}
+      <br>
+      <img src="{{ url_for('static', filename='img/' + result.image1) }}" alt="Product Image" width="100" height="100">
+      {% endif %}
+    </div>
+    <div class="form-group">
+      <label>Product Image 2</label>
+      <input type="file" class="form-control-file" id="image2" name="image2" accept="image/">
+      {% if result.image2 %}
+      <br>
+      <img src="{{ url_for('static', filename='img/' + result.image2) }}" alt="Product Image" width="100" height="100">
+      {% endif %}
+    </div>
+    <div class="form-group">
+      <label>Product Image 3</label>
+      <input type="file" class="form-control-file" id="image3" name="image3" accept="image/">
+      {% if result.image3 %}
+      <br>
+      <img src="{{ url_for('static', filename='img/' + result.image3) }}" alt="Product Image" width="100" height="100">
+      {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
 </div>
 {% endblock %}
