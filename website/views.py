@@ -141,7 +141,7 @@ def home_buyer():
     else:
         messages = None
 
-    return render_template("home_buyer.html", user=current_user, products=products, messages=messages)
+    return render_template("home_buyer1.html", user=current_user, products=products, messages=messages)
 
 
 @views.route('/product/<int:id>')
@@ -235,13 +235,13 @@ def send_message(buyer_id):
 @views.route('/sort/price')
 def sort_by_price():
     products = Products.query.order_by(Products.price).all()
-    return render_template("home_buyer.html", user=current_user, products=products)
+    return render_template("home_buyer1.html", user=current_user, products=products)
 
 
 @views.route('/sort/name')
 def sort_by_name():
     products = Products.query.order_by(Products.name).all()
-    return render_template("home_buyer.html", user=current_user, products=products)
+    return render_template("home_buyer1.html", user=current_user, products=products)
 
 
 def mergeDictionary(dict01, dict02):

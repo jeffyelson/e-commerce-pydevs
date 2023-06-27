@@ -52,11 +52,11 @@ content %}
                                         Add to wishlist
                                     </button>
                                     <form action="{{url_for('views.addToCart')}}" method="post">
-                <input type="hidden" name="product_id" value="{{product.id}}">
-                <button class="btn btn-outline-primary btn-sm mt-2">Add to Cart</button>
-                </br>
+                                        <input type="hidden" name="product_id" value="{{product.id}}">
+                                        <button class="btn btn-outline-primary btn-sm mt-2">Add to Cart</button>
+                                        </br>
                                         <label for="quantity">Quantity: </label>
-                <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}">
+                                        <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}">
                                     </form>
                                 </div>
                             </div>
