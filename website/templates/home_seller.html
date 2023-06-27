@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
 content %}
+{% block topnav %}{% endblock %}
 
 <br>
 <h1>Hello, {{user.firstName}}</h1>
@@ -30,16 +31,7 @@ content %}
 
 <h1> Your products</h1>
 
-<h1>Messages with Buyers</h1>
 
-<ul>
-  {% for buyer in buyers %}
-    <li>
-      {{ buyer.firstName }}
-      <a href="{{ url_for('views.messages', buyer_id=buyer.id) }}">View Messages</a>
-    </li>
-  {% endfor %}
-</ul>
 
 <div class="container">
     <table class="table table-sm">
@@ -102,6 +94,17 @@ content %}
     </table>
 </div>
 
+
+<h1>Messages with Buyers</h1>
+
+<ul>
+  {% for buyer in buyers %}
+    <li>
+      {{ buyer.firstName }}
+      <a href="{{ url_for('views.messages', buyer_id=buyer.id) }}">View Messages</a>
+    </li>
+  {% endfor %}
+</ul>
 
 
 {% endblock %}
