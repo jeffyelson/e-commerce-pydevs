@@ -38,7 +38,11 @@
 
     <div class="collapse navbar-collapse" id="navbar">
     <div class="navbar-nav ">
+        {% if user.userType == 'buyer' %}
         <a class="nav-item nav-link " id="home" href="/">Home</a>
+         {% else %}
+        <a class="nav-item nav-link " id="home1" href="/seller">Home</a>
+         {% endif %}
         <div class="ml-5">
             <form class="form-inline ml-4" action="{{url_for('views.searchResult')}}">
                 <input class="form-control" type="search" size="50" placeholder="Search Products"
@@ -53,7 +57,12 @@
         {% if user.userType == 'buyer' %}
         <a class="nav-item nav-link" id="seller_List" href="/sellers" >Chat</a>
         {% endif %}
+        {% if user.userType == 'seller' %}
+        <a class="nav-item nav-link" id="buyers_List" href="/buyers" >Chat</a>
+        {% endif %}
+        {% if user.userType == 'buyer' %}
         <a class="nav-item nav-link" id="cart" href="/cart">Cart ({{ session['shopping_cart']|length }})</a>
+        {% endif %}
         <a class="nav-item nav-link " id="signout" href="/logout">Signout</a>
         {% else %}
         <a class="nav-item nav-link" id="login" href="/login">Login</a>
