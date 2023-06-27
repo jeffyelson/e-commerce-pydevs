@@ -63,32 +63,32 @@ def addProduct():
     return render_template("addProduct.html", user=current_user)
 
 
-@views.route('/electronics')
+@views.route('/dogs')
 def electronics():
-    products = Products.query.filter_by(category="electronics")
+    products = Products.query.filter_by(category="dogs")
     print(products)
-    return render_template("home_buyer.html", products=products, user=current_user)
+    return render_template("home_buyer1.html", products=products, user=current_user)
 
 
-@views.route('/food')
+@views.route('/cats')
 def food():
-    products = Products.query.filter_by(category="food")
+    products = Products.query.filter_by(category="cats")
     print(products)
-    return render_template("home_buyer.html", products=products, user=current_user)
+    return render_template("home_buyer1.html", products=products, user=current_user)
 
 
-@views.route('/shoes')
+@views.route('/birds')
 def shoes():
-    products = Products.query.filter_by(category="shoes")
+    products = Products.query.filter_by(category="birds")
     print(products)
-    return render_template("home_buyer.html", products=products, user=current_user)
+    return render_template("home_buyer1.html", products=products, user=current_user)
 
 
-@views.route('/clothes')
+@views.route('/smallAnimals')
 def clothes():
-    products = Products.query.filter_by(category="clothing")
+    products = Products.query.filter_by(category="smallAnimals")
     print(products)
-    return render_template("home_buyer.html", products=products, user=current_user)
+    return render_template("home_buyer1.html", products=products, user=current_user)
 
 
 @views.route('/editProduct/<int:id>', methods=['GET', 'POST'])
