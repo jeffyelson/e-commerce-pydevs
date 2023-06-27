@@ -31,7 +31,7 @@ def home():
 def searchResult():
     query = request.args.get('q')
     products = Products.query.msearch(query, fields=['name', 'description'])
-    return render_template("searchResult.html",  user=current_user, products=products)
+    return render_template("searchResult.html", user=current_user, products=products)
 
 
 @views.route('/addProduct', methods=['GET', 'POST'])
@@ -155,6 +155,13 @@ def detailsPage(id):
 def sellers_list():
     sellers = User.query.filter_by(userType="seller").all()
     return render_template('sellers.html', user=current_user, sellers=sellers)
+
+
+@views.route('/buyers')
+@login_required
+def buyers_list():
+    buyers = User.query.filter_by(userType="buyer").all()
+    return render_template('buyers.html', user=current_user, buyers=buyers)
 
 
 @views.route('/chat/<int:seller_id>', methods=['GET', 'POST'])
