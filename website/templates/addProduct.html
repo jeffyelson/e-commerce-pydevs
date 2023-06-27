@@ -96,7 +96,7 @@
         </div>
         <div class="form-group">
             <label>Discount:</label>
-            <input type="number" id="discount" name="discount" required>
+            <input type="number" id="discount" name="discount">
         </div>
         <div class="form-group">
             <label>Product Image 1</label>
@@ -124,10 +124,9 @@
         var description = document.getElementById("description").value;
         var price = document.getElementById("price").value;
         var stock = document.getElementById("stock").value;
-        var discount = document.getElementById("discount").value;
         var image1 = document.getElementById("image1").value;
 
-        if (category === "" || name === "" || description === "" || price === "" || stock === "" || discount === "" || image1 === "") {
+        if (category === "" || name === "" || description === "" || price === "" || stock === "" || image1 === "") {
             alert("Please fill in all the required fields.");
             return false;
         }
