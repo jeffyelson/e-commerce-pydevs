@@ -1407,15 +1407,6 @@ span.psw {
 }
 
 /* Modal Content/Box */
-.modal-content {
-  background-image:url("https://i.ibb.co/nmFGXfD/banner.png");
-  background-size:cover;
-  background-position:center;
-  margin: 5% auto 5% auto; /* 5% from the top, 15% from the bottom and centered */
-  border: 1px solid #888;
-  width: 80%;
-  height:70vh; /* Could be more or less, depending on screen size */
-}
 
 /* The Close Button (x) */
 .close {

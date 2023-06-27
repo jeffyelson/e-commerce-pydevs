@@ -40,8 +40,10 @@
     <div class="navbar-nav ">
         {% if user.userType == 'buyer' %}
         <a class="nav-item nav-link " id="home" href="/">Home</a>
-         {% else %}
+         {% elif user.userType == 'seller' %}
         <a class="nav-item nav-link " id="home1" href="/seller">Home</a>
+        {% else %}
+        <a class="nav-item nav-link " id="home2" href="/">Home</a>
          {% endif %}
         <div class="ml-5">
             <form class="form-inline ml-4" action="{{url_for('views.searchResult')}}">
