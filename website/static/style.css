@@ -79,6 +79,10 @@ background-color: black;
 
 
 
+.centered-text {
+        text-align: center;
+    }
+
 #shop_now{
     border: none;
     width: 10em;
