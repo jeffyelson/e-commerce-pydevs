@@ -176,7 +176,16 @@ messages %} {% for category, message in messages %} {% if category ==
 </div>
 {% endif %} {% endfor %} {% endif %} {% endwith %}
 <div>{% block content %} {% endblock %}</div>
-
+<div class="content-wrapper">
+<footer style="color:white;" class="bg-dark text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2023 Copyright:
+    <a  href="">aDogCa</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+</div>
 <script
         src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
