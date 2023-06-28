@@ -1095,7 +1095,7 @@ margin-top:5vh;
 position:absolute;
 right:20px;
 top:20px;
-background:#2874f0;
+background:black;
 border-radius:3px;
 }
 
@@ -1450,7 +1450,22 @@ span.psw {
      width: 100%;
   }
 }
+.black-footer {
+    background-color: black;
+    color: white;
+    padding: 20px;
+  }
 
+  .content-wrapper {
+  min-height: calc(100vh - (navbar-height + footer-height)); /* Adjust this based on the height of your navbar and footer */
+  padding-bottom: 5px; /* Adjust this to match the height of your footer */
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
 
 
 .credits{
