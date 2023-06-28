@@ -267,7 +267,7 @@ def addToCart():
 
         if request.method == "POST":
             dictItems = {product_id: {'name': product.name, 'price': float(product.price),
-                                      'quantity': quantity, 'image': product.image}}
+                                      'quantity': quantity, 'image': product.image1}}
             if 'shopping_cart' in session:
                 print(session['shopping_cart'])
                 if product_id in session['shopping_cart']:
