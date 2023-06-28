@@ -4,22 +4,43 @@ content %}
 
 <div class="container">
     <div class="row">
-        {% for product in products%}
+        {% for product in products %}
         <div class="col-md-3">
-            <div class="card">
+            <div class="card" style="height: 350px;">
                 <img src="/static/img/{{product.image1}}" class="card-img-top" height="200">
                 <div class="card-body">
-                    <h5 class="text-center">{{product.name}}</h5>
-                    <p class="text=center">Price: €{{product.price}}</p>
-                    <div class="card-footer">
-                        <a href="{{url_for('views.detailsPage', id =product.id)}}" class="float=left btn btn-sm btn-primary "> Details</a>
-                        <a href="#" class="float=right btn btn-sm btn-warning "> Add to Cart</a>
-                    </div>
+                    <h5 class="card-title text-center">{{ product.name }}</h5>
+                    {% if product.discount|default(0)|int > 0 %}
+                    <p class="card-text text-center">
+                        Price: <i class="fa fa-euro"></i>{{ product.price - product.price * product.discount / 100 }}
+                        <span style="color: red;"><strike><i class="fa fa-euro"></i>{{ product.price }}</strike></span>
+                    </p>
+                    {% else %}
+                    <p class="card-text text-center">Price: <i class="fa fa-euro"></i>{{ product.price }}</p>
+                    {% endif %}
                 </div>
+
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a href="{{ url_for('views.detailsPage', id=product.id) }}" class="btn btn-sm rounded"
+                       style="background-color:black;color:white;">Details</a>
+
+                    <form action="{{url_for('views.addToCart')}}" method="post" class="d-flex align-items-center">
+                        <input type="hidden" name="product_id" value="{{product.id}}">
+
+                        <div class="input-group">
+                            <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}"
+                                   class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary btn-sm" type="submit">Add to Cart</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
             </div>
         </div>
         {% endfor %}
-
 
     </div>
 </div>
