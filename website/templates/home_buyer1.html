@@ -37,17 +37,23 @@
                     {% endif %}
                 </div>
 
-                <div class="card-footer d-flex justify-content-between">
-                    <a href="{{ url_for('views.detailsPage', id=product.id) }}"
-                       style="background-color:black;color:white;" class="btn btn-sm rounded">Details</a>
-                    <form action="{{url_for('views.addToCart')}}" method="post">
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a href="{{ url_for('views.detailsPage', id=product.id) }}" class="btn btn-sm rounded"
+                       style="background-color:black;color:white;">Details</a>
+
+                    <form action="{{url_for('views.addToCart')}}" method="post" class="d-flex align-items-center">
                         <input type="hidden" name="product_id" value="{{product.id}}">
-                        <button class="btn btn-outline-primary btn-sm mt-2">Add to Cart</button>
-                        </br>
-                        <label for="quantity">Quantity: </label>
-                        <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}">
+
+                        <div class="input-group">
+                            <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}"
+                                   class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary btn-sm" type="submit">Add to Cart</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
+
 
             </div>
         </div>
