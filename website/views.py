@@ -238,13 +238,15 @@ def send_message(buyer_id):
 
 @views.route('/sort/price')
 def sort_by_price():
-    products = Products.query.order_by(Products.price).all()
+    page = request.args.get('page', 1, type=int)
+    products = Products.query.order_by(Products.price).paginate(page=page, per_page=4)
     return render_template("home_buyer1.html", user=current_user, products=products)
 
 
 @views.route('/sort/name')
 def sort_by_name():
-    products = Products.query.order_by(Products.name).all()
+    page = request.args.get('page', 1, type=int)
+    products = Products.query.order_by(Products.name).paginate(page=page, per_page=4)
     return render_template("home_buyer1.html", user=current_user, products=products)
 
 
