@@ -40,7 +40,13 @@
                 <div class="card-footer d-flex justify-content-between">
                     <a href="{{ url_for('views.detailsPage', id=product.id) }}"
                        style="background-color:black;color:white;" class="btn btn-sm rounded">Details</a>
-                    <a href="#" class="btn btn-warning btn-sm rounded">Add to Cart</a>
+                    <form action="{{url_for('views.addToCart')}}" method="post">
+                        <input type="hidden" name="product_id" value="{{product.id}}">
+                        <button class="btn btn-outline-primary btn-sm mt-2">Add to Cart</button>
+                        </br>
+                        <label for="quantity">Quantity: </label>
+                        <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}">
+                    </form>
                 </div>
 
             </div>
