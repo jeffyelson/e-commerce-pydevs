@@ -3,15 +3,15 @@
 {% block title %}Sellers List{% endblock %}
 {% block topnav %}{% endblock %}
 {% block content %}
-  <h1>Buyers List</h1>
-  <ul class="buyer-list">
+<h1>Buyers List</h1>
+<ul class="buyer-list">
     {% for buyer in buyers %}
-      <li class="buyer-item">
+    <li class="buyer-item">
         <span class="buyer-name">{{ buyer.firstName }}</span>
         <a class="chat-link" href="{{ url_for('views.messages', buyer_id=buyer.id) }}">Chat</a>
-      </li>
+    </li>
     {% endfor %}
-  </ul>
+</ul>
 <style>
 .buyer-list {
   list-style: none;
@@ -31,5 +31,6 @@
   text-decoration: none;
   margin-left: 10px;
 }
+
 </style>
 {% endblock %}

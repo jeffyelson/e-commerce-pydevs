@@ -3,19 +3,19 @@
 {% block title %}Sellers List{% endblock %}
 
 {% block content %}
-  <h3>Sellers you can chat with:</h3>
-  <ul>
+<h3>Sellers you can chat with:</h3>
+<ul>
     {% for seller in sellers %}
-      <li>
+    <li>
         {{ seller.firstName }}
         <a href="{{ url_for('views.chat', seller_id=seller.id) }}">Chat</a>
         <ul>
 
-          {% for product in seller.products %}
+            {% for product in seller.products %}
             <li>{{ product.name }}</li>
-          {% endfor %}
+            {% endfor %}
         </ul>
-      </li>
+    </li>
     {% endfor %}
-  </ul>
+</ul>
 {% endblock %}

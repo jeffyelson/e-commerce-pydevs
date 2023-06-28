@@ -16,10 +16,10 @@
             crossorigin="anonymous"
     />
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-    <title >{% block title %}Home{% endblock %}</title>
+    <title>{% block title %}Home{% endblock %}</title>
     <link rel="stylesheet" href="/static/style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
 
 
 </head>
@@ -37,45 +37,45 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbar">
-    <div class="navbar-nav ">
-        {% if user.userType == 'buyer' %}
-        <a class="nav-item nav-link " id="home" href="/">Home</a>
-         {% elif user.userType == 'seller' %}
-        <a class="nav-item nav-link " id="home1" href="/seller">Home</a>
-        {% else %}
-        <a class="nav-item nav-link " id="home2" href="/">Home</a>
-         {% endif %}
-        {% if user.userType == 'buyer' %}
-        <div class="ml-5">
-            <form class="form-inline ml-4" action="{{url_for('views.searchResult')}}">
-                <input class="form-control" type="search" size="50" placeholder="Search Products"
-                       aria-label="Search" name="q">
-                <button  id="search" class="btn btn-warning  ml-2 my-sm-0 " type="submit">Search</button>
-            </form>
+        <div class="navbar-nav ">
+            {% if user.userType == 'buyer' %}
+            <a class="nav-item nav-link " id="home" href="/">Home</a>
+            {% elif user.userType == 'seller' %}
+            <a class="nav-item nav-link " id="home1" href="/seller">Home</a>
+            {% else %}
+            <a class="nav-item nav-link " id="home2" href="/">Home</a>
+            {% endif %}
+            {% if user.userType == 'buyer' %}
+            <div class="ml-5">
+                <form class="form-inline ml-4" action="{{url_for('views.searchResult')}}">
+                    <input class="form-control" type="search" size="50" placeholder="Search Products"
+                           aria-label="Search" name="q">
+                    <button id="search" class="btn btn-warning  ml-2 my-sm-0 " type="submit">Search</button>
+                </form>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
+
+        <div class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            {% if user.userType == 'buyer' %}
+            <a class="nav-item nav-link" id="seller_List" href="/sellers">Chat</a>
+            {% endif %}
+            {% if user.userType == 'seller' %}
+            <a class="nav-item nav-link" id="buyers_List" href="/buyers">Chat</a>
+            {% endif %}
+            {% if user.userType == 'buyer' %}
+            <a class="nav-item nav-link" id="cart" href="/cart">Cart ({{ session['shopping_cart']|length }})</a>
+            {% endif %}
+            <a class="nav-item nav-link " id="signout" href="/logout">Signout</a>
+            {% else %}
+            <a class="nav-item nav-link" id="login" href="/login">Login</a>
+            <a class="nav-item nav-link" id="register" href="/register">Register</a>
+
+
+            {% endif %}
+        </div>
     </div>
-
-    <div class="navbar-nav ml-auto">
-        {% if user.is_authenticated %}
-        {% if user.userType == 'buyer' %}
-        <a class="nav-item nav-link" id="seller_List" href="/sellers" >Chat</a>
-        {% endif %}
-        {% if user.userType == 'seller' %}
-        <a class="nav-item nav-link" id="buyers_List" href="/buyers" >Chat</a>
-        {% endif %}
-        {% if user.userType == 'buyer' %}
-        <a class="nav-item nav-link" id="cart" href="/cart">Cart ({{ session['shopping_cart']|length }})</a>
-        {% endif %}
-        <a class="nav-item nav-link " id="signout" href="/logout">Signout</a>
-        {% else %}
-        <a class="nav-item nav-link" id="login" href="/login">Login</a>
-        <a class="nav-item nav-link" id="register" href="/register">Register</a>
-
-
-        {% endif %}
-    </div>
-</div>
 </nav>
 
 <!--
@@ -127,35 +127,33 @@
 -->
 {% block topnav %}
 <div class="topnav" id="myTopnav">
-  <div class="dropdown">
-    <a class="dropbtn" href="/dogs">Dogs
-    </a>
-  </div>
+    <div class="dropdown">
+        <a class="dropbtn" href="/dogs">Dogs
+        </a>
+    </div>
 
-  <div class="dropdown">
-    <a class="dropbtn" href="/cats">Cats
-    </a>
-  </div>
+    <div class="dropdown">
+        <a class="dropbtn" href="/cats">Cats
+        </a>
+    </div>
 
-  <div class="dropdown">
-    <a class="dropbtn" href="/smallAnimals">Small Animals
-    </a>
-  </div>
+    <div class="dropdown">
+        <a class="dropbtn" href="/smallAnimals">Small Animals
+        </a>
+    </div>
 
-  <div class="dropdown">
-    <a class="dropbtn" href="/birds">Birds
-    </a>
-  </div>
+    <div class="dropdown">
+        <a class="dropbtn" href="/birds">Birds
+        </a>
+    </div>
 
-  <div class="dropdown">
-    <a class="dropbtn" href="/buyer">All
-    </a>
-  </div>
+    <div class="dropdown">
+        <a class="dropbtn" href="/buyer">All
+        </a>
+    </div>
 </div>
 </div>
 {% endblock %}
-
-
 
 
 {% with messages = get_flashed_messages(with_categories=true) %} {% if
@@ -177,14 +175,12 @@ messages %} {% for category, message in messages %} {% if category ==
 {% endif %} {% endfor %} {% endif %} {% endwith %}
 <div>{% block content %} {% endblock %}</div>
 <div class="content-wrapper">
-<footer style="color:white;" class="bg-dark text-center text-lg-start">
-  <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    © 2023 Copyright:
-    <a  href="">aDogCa</a>
-  </div>
-  <!-- Copyright -->
-</footer>
+    <footer style="color:white;" class="bg-dark text-center text-lg-start">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2023 Copyright:
+            <a href="">aDogCa</a>
+        </div>
+    </footer>
 </div>
 <script
         src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -217,6 +213,9 @@ function scrollright4(){
 }
 function scrollleft4(){
   document.getElementById("section4").scrollLeft -= 400;
-}</script>
+}
+
+
+</script>
 </body>
 </html>

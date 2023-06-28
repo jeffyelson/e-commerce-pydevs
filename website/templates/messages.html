@@ -3,29 +3,28 @@
 {% block title %}Messages{% endblock %}
 {% block topnav %}{% endblock %}
 {% block content %}
-  <h1>Messages with {{ buyer.firstName }}</h1>
+<h1>Messages with {{ buyer.firstName }}</h1>
 
-  <div class="chat-container">
+<div class="chat-container">
     {% for message in messages %}
-      {% if message.sender.id == current_user.id %}
-        <div class="my-message">
-          <p class="content">{{ message.content }}</p>
-          <small class="timestamp">{{ message.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</small>
-        </div>
-      {% else %}
-        <div class="other-message">
-          <p class="content">{{ message.content }}</p>
-          <small class="timestamp">{{ message.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</small>
-        </div>
-      {% endif %}
+    {% if message.sender.id == current_user.id %}
+    <div class="my-message">
+        <p class="content">{{ message.content }}</p>
+        <small class="timestamp">{{ message.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</small>
+    </div>
+    {% else %}
+    <div class="other-message">
+        <p class="content">{{ message.content }}</p>
+        <small class="timestamp">{{ message.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</small>
+    </div>
+    {% endif %}
     {% endfor %}
-  </div>
+</div>
 
-  <form action="{{ url_for('views.send_message', buyer_id=buyer.id) }}" method="POST" class="message-form">
+<form action="{{ url_for('views.send_message', buyer_id=buyer.id) }}" method="POST" class="message-form">
     <textarea name="message" rows="4" cols="50" placeholder="Type your message"></textarea>
     <button type="submit">Send</button>
-  </form>
-
+</form>
 
 
 <style>
@@ -80,6 +79,7 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
 
 
 </style>

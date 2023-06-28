@@ -63,10 +63,13 @@
         border-radius: 5px;
         cursor: pointer;
     }
+
+
 </style>
 
 <div class="card w-75 form-border">
-    <form class="card-body" action="{{ url_for('views.addProduct') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <form class="card-body" action="{{ url_for('views.addProduct') }}" method="POST" enctype="multipart/form-data"
+          onsubmit="return validateForm()">
         <h5 class="card-title centered-text">Add New Product</h5>
         <div class="form-group">
             <label>Category</label>
@@ -118,7 +121,6 @@
 
 <script>
     function validateForm() {
-        // Perform additional validations here if needed
         var category = document.getElementById("category").value;
         var name = document.getElementById("name").value;
         var description = document.getElementById("description").value;
@@ -134,6 +136,8 @@
 
         return true;
     }
+
+
 </script>
 
 {% endblock %}
