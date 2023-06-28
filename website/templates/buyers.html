@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Sellers List{% endblock %}
+{% block topnav %}{% endblock %}
+{% block content %}
+<h1>Buyers List</h1>
+<ul class="buyer-list">
+    {% for buyer in buyers %}
+    <li class="buyer-item">
+        <span class="buyer-name">{{ buyer.firstName }}</span>
+        <a class="chat-link" href="{{ url_for('views.messages', buyer_id=buyer.id) }}">Chat</a>
+    </li>
+    {% endfor %}
+</ul>
+<style>
+.buyer-list {
+  list-style: none;
+  padding: 0;
+}
+
+.buyer-item {
+  margin-bottom: 10px;
+}
+
+.buyer-name {
+  font-weight: bold;
+}
+
+.chat-link {
+  color: #007bff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+</style>
+{% endblock %}

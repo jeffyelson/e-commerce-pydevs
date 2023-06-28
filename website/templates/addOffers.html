@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}HomePage{% endblock %}
+{% block topnav %}{% endblock %}
+{% block content %}
+<style>
+    .form-border {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        width: 80%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    @media (max-width: 768px) {
+        .form-border {
+            width: 100%;
+        }
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+
+    input[type="text"],
+    input[type="number"],
+    input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+
+    .btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+
+</style>
+
+<div class="card w-75 form-border">
+    <form class="card-body" action="{{ url_for('views.addOffers') }}" method="POST" enctype="multipart/form-data"
+          onsubmit="return validateForm()">
+        <h5 class="card-title centered-text">Add New Offers</h5>
+        <div class="form-group">
+            <label>Discount Percentage:</label>
+            <input type="number" id="discount" name="discount">
+        </div>
+        <div class="form-group">
+            <label>Discount Code:</label>
+            <input type="text" id="discount_code" name="discount_code">
+        </div>
+        <div class="form-group">
+            <label>Discount Image:</label>
+            <input type="file" class="form-control-file" id="discount_img" name="discount_img" accept="image/">
+        </div>
+        <div>
+        <label for="validity"
+            style="display: block; margin-bottom: 10px;">
+            Enter the validity (YYYY-MM-DD):
+        </label>
+        <input type="date" name="date" id="validity"
+            placeholder="YYYY-MM-DD" required
+            style="padding: 5px; border-radius: 5px;
+            border: 1px solid #ccc; margin-bottom: 10px;">
+        </div>
+        <input type="submit" value="Submit"
+            style="background-color: green; color: #fff;
+            padding: 10px 20px; border-radius: 5px;
+            border: none; cursor: pointer;">
+    </form>
+  </div>
+
+<script>
+    function validateForm() {
+        var discount_code = document.getElementById("discount_code").value;
+        var discount = document.getElementById("discount").value;
+        var discount_img = document.getElementById("discount_img").value;
+        var validity = document.getElementById("validity").value;
+
+
+        if (discount_code === "" || discount === "" || discount_img === "" || validity === "") {
+            alert("Please fill in all the required fields.");
+            return false;
+        }
+
+
+        return true;
+    }
+
+</script>
+
+{% endblock %}
