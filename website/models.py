@@ -40,3 +40,12 @@ class Message(db.Model):
     recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     content = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, default=func.now())
+
+class Offers(db.Model):
+    discount_code = db.Column(db.String(100), primary_key=True)
+    discount_percentage = db.Column(db.Integer)
+    validity = db.Column(db.DateTime, default=func.now())
+    seller_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    discount_img = db.Column(db.String(120), default='image.jpg')
+
+

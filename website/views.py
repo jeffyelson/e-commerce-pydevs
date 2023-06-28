@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, flash, current_app, sessi
 from flask_login import login_required, logout_user, current_user
 from sqlalchemy import func
 
-from .models import Products, Message, User
+from .models import Products, Message, User , Offers
 import os
 import secrets
 from . import db
@@ -341,3 +341,25 @@ def updateCart(id):
         except Exception as e:
             print(e)
             return redirect(url_for('views.getCart'))
+
+@views.route('/addOffers', methods=['GET', 'POST'])
+def addOffers():
+    if request.method == 'POST':
+
+        discount = request.form.get('discount')
+        discount_code = request.form.get('discount_code')
+        discount_image = saveImage(request.files.get('discount_img'))
+        validity = request.form.get('validity')
+
+
+
+        new_offer = Offers(seller_id=current_user.id,discount_code=discount_code,discount_img=discount_image,
+                           discount_percentage=discount,validity=validity)
+
+        db.session.add(new_offer)
+        db.session.commit()
+        flash('Offer posted!', category='success')
+        products = Products.query.filter_by(user_id=current_user.id)
+        return render_template("home_seller.html", user=current_user, products=products)
+
+    return render_template("addOffers.html", user=current_user)
