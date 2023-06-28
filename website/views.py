@@ -49,16 +49,19 @@ def addProduct():
         photo3 = saveImage(request.files.get('image3'))
 
         print(category, name, description, price, photo1)
+        discount_check = OfferCodes.query.get(discount)
+        if discount_check == None:
+            flash("Offer code not valid. Please enter a valid code","error")
+        else:
+            new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
+                                   image1=photo1, image2=photo2, image3=photo3, discount=discount,
+                                   user_id=current_user.id)
 
-        new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
-                               image1=photo1, image2=photo2, image3=photo3, discount=discount,
-                               user_id=current_user.id)
-
-        db.session.add(new_product)
-        db.session.commit()
-        flash('Product posted!', category='success')
-        products = Products.query.filter_by(user_id=current_user.id)
-        return render_template("home_seller.html", user=current_user, products=products)
+            db.session.add(new_product)
+            db.session.commit()
+            flash('Product posted!', category='success')
+            products = Products.query.filter_by(user_id=current_user.id)
+            return render_template("home_seller.html", user=current_user, products=products)
 
     return render_template("addProduct.html", user=current_user)
 
