@@ -41,7 +41,7 @@ class Message(db.Model):
     content = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, default=func.now())
 
-class Offers(db.Model):
+class OfferCodes(db.Model):
     discount_code = db.Column(db.String(100), primary_key=True)
     discount_percentage = db.Column(db.Integer)
     validity = db.Column(db.DateTime, default=func.now())

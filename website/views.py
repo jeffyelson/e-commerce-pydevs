@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, flash, current_app, sessi
 from flask_login import login_required, logout_user, current_user
 from sqlalchemy import func
 
-from .models import Products, Message, User , Offers
+from .models import Products, Message, User , OfferCodes
 import os
 import secrets
 from . import db
@@ -353,7 +353,7 @@ def addOffers():
 
 
 
-        new_offer = Offers(seller_id=current_user.id,discount_code=discount_code,discount_img=discount_image,
+        new_offer = OfferCodes(seller_id=current_user.id,discount_code=discount_code,discount_img=discount_image,
                            discount_percentage=discount,validity=validity)
 
         db.session.add(new_offer)
