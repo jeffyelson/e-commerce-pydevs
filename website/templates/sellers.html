@@ -9,6 +9,12 @@
       <li>
         {{ seller.firstName }}
         <a href="{{ url_for('views.chat', seller_id=seller.id) }}">Chat</a>
+        <ul>
+
+          {% for product in seller.products %}
+            <li>{{ product.name }}</li>
+          {% endfor %}
+        </ul>
       </li>
     {% endfor %}
   </ul>
