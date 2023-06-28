@@ -65,28 +65,32 @@ def addProduct():
 
 @views.route('/dogs')
 def electronics():
-    products = Products.query.filter_by(category="dogs")
+    page = request.args.get('page', 1, type=int)
+    products = Products.query.filter_by(category="dogs").paginate(page=page, per_page=4)
     print(products)
     return render_template("home_buyer1.html", products=products, user=current_user)
 
 
 @views.route('/cats')
 def food():
-    products = Products.query.filter_by(category="cats")
+    page = request.args.get('page', 1, type=int)
+    products = Products.query.filter_by(category="cats").paginate(page=page, per_page=4)
     print(products)
     return render_template("home_buyer1.html", products=products, user=current_user)
 
 
 @views.route('/birds')
 def shoes():
-    products = Products.query.filter_by(category="birds")
+    page = request.args.get('page', 1, type=int)
+    products = Products.query.filter_by(category="birds").paginate(page=page, per_page=4)
     print(products)
     return render_template("home_buyer1.html", products=products, user=current_user)
 
 
 @views.route('/smallAnimals')
 def clothes():
-    products = Products.query.filter_by(category="smallAnimals")
+    page = request.args.get('page', 1, type=int)
+    products = Products.query.filter_by(category="smallAnimals").paginate(page=page, per_page=4)
     print(products)
     return render_template("home_buyer1.html", products=products, user=current_user)
 
@@ -130,8 +134,8 @@ def home_seller():
 
 @views.route('/buyer')
 def home_buyer():
-
-    products = Products.query.filter(Products.stock > 0)
+    page = request.args.get('page', 1, type=int)
+    products = Products.query.filter(Products.stock > 0).paginate(page=page, per_page=4)
 
     if current_user.is_authenticated:
         messages = Message.query.filter(
