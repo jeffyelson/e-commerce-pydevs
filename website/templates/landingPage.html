@@ -51,7 +51,7 @@ content %}
             {% if product.discount|default(0)|int > 0 %}
                 <div class="discount-card">
                     <img class="product-image" src="/static/img/{{ product.image1 }}" alt="Product">
-                    <a href="#" class="like-button"><i class="fa fa-heart-o"></i></a>
+                    <a href="/product/{{ product.id }}"><i class="fa fa-info"></i></a>
                     <span class="title">{{ product.name }}</span>
                     <span class="rating"></span>
                     <span class="btn1"><i class="fa fa-euro"></i>{{ product.price - product.price * product.discount / 100 }}</span>
