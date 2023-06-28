@@ -25,17 +25,17 @@
             <div class="card">
                 <img src="/static/img/{{product.image1}}" class="card-img-top" height="200">
                 <div class="card-body">
-    <h5 class="card-title text-center">{{ product.name }}</h5>
-    {% if product.discount|default(0)|int > 0 %}
-        <p class="card-text text-center">
-            Price: <i class="fa fa-euro"></i>{{ product.price - product.price * product.discount / 100 }}
-            <span style="color: red;"><strike><i class="fa fa-euro"></i>{{ product.price }}</strike></span>
-        </p>
-    {% else %}
-        <p class="card-text text-center">Price: <i class="fa fa-euro"></i>{{ product.price }}</p>
-    {% endif %}
-</div>
-Ò
+                    <h5 class="card-title text-center">{{ product.name }}</h5>
+                    {% if product.discount|default(0)|int > 0 %}
+                    <p class="card-text text-center">
+                        Price: <i class="fa fa-euro"></i>{{ product.price - product.price * product.discount / 100 }}
+                        <span style="color: red;"><strike><i class="fa fa-euro"></i>{{ product.price }}</strike></span>
+                    </p>
+                    {% else %}
+                    <p class="card-text text-center">Price: <i class="fa fa-euro"></i>{{ product.price }}</p>
+                    {% endif %}
+                </div>
+
                 <div class="card-footer">
                     <a href="{{url_for('views.detailsPage', id=product.id)}}" class="btn btn-primary btn-sm">Details</a>
                     <a href="#" class="btn btn-warning btn-sm">Add to Cart</a>
