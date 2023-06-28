@@ -107,12 +107,15 @@ def editProduct(id):
         result.price = request.form.get('price')
         result.stock = request.form.get('stock')
         result.photo = request.files.get('image1')
-        result.offers = result.offers + "," + str(result.discount)
         result.discount = request.form.get('discount')
-        db.session.commit()
-        flash(f'Your product has been updated', 'success')
-        products = Products.query.all()
-        return render_template("home_seller.html", user=current_user, products=products)
+        discount_check = OfferCodes.query.get(result.discount)
+        if discount_check == None:
+            flash("Offer code not valid. Please enter a valid code","error")
+        else:
+            db.session.commit()
+            flash(f'Your product has been updated', 'success')
+            products = Products.query.all()
+            return render_template("home_seller.html", user=current_user, products=products)
 
     return render_template("editProduct.html", user=current_user, result=result)
 
