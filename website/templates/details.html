@@ -11,11 +11,15 @@ content %}
         <div class="col-md-6">
             <h4>Product name: {{product.name}}</h4>
             <hr>
-            <p> <b>Product Price:</b> €{{product.price}}</p>
             {% if product.discount|default(0)|int > 0 %}
-            <p>Product disount: {{product.discount}} %</p>
+            <p> <b>Product Price:</b> <span ><i class="fa fa-euro"></i>{{ product.price - product.price * product.discount / 100 }}</span>
+            {% else %}
+            <p> <b>Product Price:</b> €{{product.price}}</p>
             {% endif %}
-            <b> Product Description </b>
+            {% if product.discount|default(0)|int > 0 %}
+            <p><b>Product disount:</b> {{product.discount}} %</p>
+            {% endif %}
+            <h5><b> Product Description </b></h5>
             <p>{{product.description}}</p>
             <form action="{{url_for('views.addToCart')}}" method="post">
                 <input type="hidden" name="product_id" value="{{product.id}}">
