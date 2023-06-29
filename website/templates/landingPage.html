@@ -51,13 +51,13 @@ content %}
 </div>
 <section class="section4" id="section4">
     {% for product in products %}
-    {% if product.discount|default(0)|int > 0 %}
+    {% if product.discount_percentage > 0 %}
     <div class="discount-card">
         <img class="product-image" src="/static/img/{{ product.image1 }}" alt="Product">
         <a href="/product/{{ product.id }}"><i class="fa fa-info"></i></a>
         <span class="title">{{ product.name }}</span>
         <span class="rating"></span>
-        <span class="btn1"><i class="fa fa-euro"></i>{{ product.price - product.price * product.discount / 100 }}</span>
+        <span class="btn1"><i class="fa fa-euro"></i>{{ product.price - product.price * product.discount_percentage / 100 }}</span>
         <strike><i class="fa fa-euro"></i>{{ product.price }}</strike>
     </div>
     {% endif %}
