@@ -42,7 +42,7 @@ def addProduct():
         description = request.form.get('description')
         price = request.form.get('price')
         stock = request.form.get('stock')
-        discount = request.form.get('discount')
+        discount = request.form.get('discount_code')
 
         photo1 = saveImage(request.files.get('image1'))
         photo2 = saveImage(request.files.get('image2'))
@@ -50,11 +50,12 @@ def addProduct():
 
         print(category, name, description, price, photo1)
         discount_check = OfferCodes.query.get(discount)
-        if discount_check == None:
+        discount_percentage = discount_check.discount_percentage
+        if discount_check is None:
             flash("Offer code not valid. Please enter a valid code","error")
         else:
             new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
-                                   image1=photo1, image2=photo2, image3=photo3, discount=discount,
+                                   image1=photo1, image2=photo2, image3=photo3, discount=discount,discount_percentage=discount_percentage,
                                    user_id=current_user.id)
 
             db.session.add(new_product)
