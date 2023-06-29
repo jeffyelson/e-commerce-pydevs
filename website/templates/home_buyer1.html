@@ -23,7 +23,7 @@
     <div class="row">
         {% for product in products.items %}
         <div class="col-md-3">
-            <div class="card" style="height: 350px;">
+            <div class="card">
                 <img src="/static/img/{{product.image1}}" class="card-img-top" height="200">
                 <div class="card-body">
                     <h5 class="card-title text-center">{{ product.name }}</h5>
@@ -60,6 +60,8 @@
         {% endfor %}
 
     </div>
+
+
     <div class="row">
         <div class="col text-center">
             {% if products.has_prev %}
