@@ -873,10 +873,6 @@ overflow-x:hidden;
 scrollbar-width:none;
 scroll-behavior: smooth;
 }
-.card-title {
-        height: 50px; /* Set a fixed height for the card title */
-        overflow: hidden; /* Hide any overflowing content */
-    }
 
 .section1 .add-card{
 padding:20px;

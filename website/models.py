@@ -1,6 +1,7 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+from datetime import date
 
 
 class Products(db.Model):
@@ -16,8 +17,7 @@ class Products(db.Model):
     image2 = db.Column(db.String(120), default='image.jpg')
     image3 = db.Column(db.String(120), default='image.jpg')
 
-    discount = db.Column(db.Integer)
-    discount_percentage = db.Column(db.Integer)
+    discount = db.Column(db.String(100), db.ForeignKey('offer_codes.discount_code'))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     offers = db.Column(db.String(120), default="0", nullable=False)
@@ -45,8 +45,9 @@ class Message(db.Model):
 class OfferCodes(db.Model):
     discount_code = db.Column(db.String(100), primary_key=True)
     discount_percentage = db.Column(db.Integer)
-    validity = db.Column(db.DateTime, default=func.now())
+    validity = db.Column(db.Date, default=date.today)
     seller_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     discount_img = db.Column(db.String(120), default='image.jpg')
+    products = db.relationship('Products')
 
 

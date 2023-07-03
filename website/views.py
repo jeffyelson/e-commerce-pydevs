@@ -2,8 +2,9 @@
 from flask import Blueprint, render_template, request, flash, current_app, session, redirect, url_for
 from flask_login import login_required, logout_user, current_user
 from sqlalchemy import func
+from datetime import datetime,date
 
-from .models import Products, Message, User, OfferCodes
+from .models import Products, Message, User , OfferCodes
 import os
 import secrets
 from . import db
@@ -49,22 +50,19 @@ def addProduct():
         photo3 = saveImage(request.files.get('image3'))
 
         print(category, name, description, price, photo1)
-        if discount == '':
-            discount_percentage = 0
+        discount_check = OfferCodes.query.get(discount)
+        if discount_check == None:
+            flash("Offer code not valid. Please enter a valid code","error")
         else:
-            discount_check = OfferCodes.query.get(discount)
-            discount_percentage = discount_check.discount_percentage
+            new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
+                                   image1=photo1, image2=photo2, image3=photo3, discount=discount,
+                                   user_id=current_user.id)
 
-        new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
-                               image1=photo1, image2=photo2, image3=photo3, discount=discount,
-                               discount_percentage=discount_percentage,
-                               user_id=current_user.id)
-
-        db.session.add(new_product)
-        db.session.commit()
-        flash('Product posted!', category='success')
-        products = Products.query.filter_by(user_id=current_user.id)
-        return render_template("home_seller.html", user=current_user, products=products)
+            db.session.add(new_product)
+            db.session.commit()
+            flash('Product posted!', category='success')
+            products = Products.query.filter_by(user_id=current_user.id)
+            return render_template("home_seller.html", user=current_user, products=products)
 
     return render_template("addProduct.html", user=current_user)
 
@@ -110,10 +108,10 @@ def editProduct(id):
         result.price = request.form.get('price')
         result.stock = request.form.get('stock')
         result.photo = request.files.get('image1')
-        result.discount = request.form.get('discount')
+        result.discount = request.form.get('discount_code')
         discount_check = OfferCodes.query.get(result.discount)
         if discount_check == None:
-            flash("Offer code not valid. Please enter a valid code", "error")
+            flash("Offer code not valid. Please enter a valid code","error")
         else:
             db.session.commit()
             flash(f'Your product has been updated', 'success')
@@ -153,8 +151,23 @@ def home_buyer():
         ).order_by(Message.timestamp.desc()).limit(10).all()
     else:
         messages = None
+    discount_percentages = {}  # Dictionary to store discount percentages
 
-    return render_template("home_buyer1.html", user=current_user, products=products, messages=messages)
+    for product in products.items:
+        discount_code = product.discount  # Get the discount code for the current product
+
+        if discount_code:
+            offer = OfferCodes.query.filter_by(discount_code=discount_code).first()
+
+            if offer and offer.validity > date.today():
+                discount_percentages[product.id] = offer.discount_percentage
+            else:
+                discount_percentages[product.id] = 0
+        else:
+            discount_percentages[product.id] = 0
+
+
+    return render_template("home_buyer1.html", user=current_user, products=products, messages=messages,discount_percentages=discount_percentages)
 
 
 @views.route('/product/<int:id>')
@@ -351,17 +364,20 @@ def updateCart(id):
             print(e)
             return redirect(url_for('views.getCart'))
 
-
 @views.route('/addOffers', methods=['GET', 'POST'])
 def addOffers():
     if request.method == 'POST':
+
         discount = request.form.get('discount')
         discount_code = request.form.get('discount_code')
         discount_image = saveImage(request.files.get('discount_img'))
         validity = request.form.get('validity')
+        validity = datetime.strptime(validity, '%Y-%m-%d').date()
 
-        new_offer = OfferCodes(seller_id=current_user.id, discount_code=discount_code, discount_img=discount_image,
-                               discount_percentage=discount, validity=validity)
+
+
+        new_offer = OfferCodes(seller_id=current_user.id,discount_code=discount_code,discount_img=discount_image,
+                           discount_percentage=discount,validity=validity)
 
         db.session.add(new_offer)
         db.session.commit()

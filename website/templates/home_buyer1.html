@@ -23,18 +23,19 @@
     <div class="row">
         {% for product in products.items %}
         <div class="col-md-3">
-            <div class="card">
+            <div class="card" style="height: 350px;">
                 <img src="/static/img/{{product.image1}}" class="card-img-top" height="200">
                 <div class="card-body">
                     <h5 class="card-title text-center">{{ product.name }}</h5>
-                    {% if product.discount_percentage > 0 %}
-                    <p class="card-text text-center">
-                        Price: <i class="fa fa-euro"></i>{{ product.price - product.price * product.discount_percentage / 100 }}
-                        <span style="color: red;"><strike><i class="fa fa-euro"></i>{{ product.price }}</strike></span>
-                    </p>
-                    {% else %}
-                    <p class="card-text text-center">Price: <i class="fa fa-euro"></i>{{ product.price }}</p>
-                    {% endif %}
+                    {% if discount_percentages.get(product.id, 0) > 0 %}
+                <p class="card-text text-center">
+                    Price: <i class="fa fa-euro"></i>{{ product.price - (product.price * discount_percentages.get(product.id) / 100) }}
+                    <span style="color: red;"><strike><i class="fa fa-euro"></i>{{ product.price }}</strike></span>
+                </p>
+                {% else %}
+                <p class="card-text text-center">Price: <i class="fa fa-euro"></i>{{ product.price }}</p>
+                {% endif %}
+
                 </div>
 
                 <div class="card-footer d-flex align-items-center justify-content-between">
@@ -60,8 +61,6 @@
         {% endfor %}
 
     </div>
-
-
     <div class="row">
         <div class="col text-center">
             {% if products.has_prev %}

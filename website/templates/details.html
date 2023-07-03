@@ -9,15 +9,12 @@ content %}
 
         </div>
         <div class="col-md-6">
-            <h1>{{product.name}}</h1>
+            <h2>Product name: {{product.name}}</h2>
             <hr>
-            {% if product.discount_percentage > 0 %}
-            <h5 class="card-text ">
-                Price: <i class="fa fa-euro"></i>{{ product.price - product.price * product.discount_percentage / 100 }}
-                <span style="color: red;"><strike><i class="fa fa-euro"></i>{{ product.price }}</strike></span>
-            </h5>
+            {% if product.discount|default(0)|int > 0 %}
+            <h5> <b>Product Price:</b> <span ><i class="fa fa-euro"></i>{{ product.price - product.price * product.discount / 100 }}</span>
             {% else %}
-            <h5><b>Product Price:</b> €{{product.price}}</h5>
+            <p> <b>Product Price:</b> €{{product.price}}</p>
             {% endif %}
             {% if product.discount|default(0)|int > 0 %}
             <h5><b>Product disount:</b> {{product.discount}} %</h5>
@@ -27,7 +24,7 @@ content %}
             <form action="{{url_for('views.addToCart')}}" method="post">
                 <input type="hidden" name="product_id" value="{{product.id}}">
                 <button class="btn btn-primary ml-4">Add to Cart</button>
-                <label class="ml-2" for="quantity">Quantity: </label>
+                <label class ="ml-2" for="quantity">Quantity: </label>
                 <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}">
             </form>
         </div>
@@ -55,7 +52,6 @@ content %}
         var imageSRC = this.getAttribute('src');
         b_image.innerHTML = "<img src=" + imageSRC + " width='400' height='400'>";
     }
-
 
 
 </script>
