@@ -299,10 +299,18 @@ def addToCart():
         product_id = request.form.get('product_id')
         quantity = int(request.form.get('quantity'))
         product = Products.query.filter_by(id=product_id).first()
+        offer = OfferCodes.query.filter_by(discount_code=product.discount).first()
+        if offer:
+            if offer.validity > date.today():
+                price = product.price - product.price * offer.discount_percentage / 100
+            else:
+                price = product.price
+        else:
+            price = product.price
         print(session)
 
         if request.method == "POST":
-            dictItems = {product_id: {'name': product.name, 'price': float(product.price),
+            dictItems = {product_id: {'name': product.name, 'price': float(price),
                                       'quantity': quantity, 'image': product.image1}}
             if 'shopping_cart' in session:
                 print(session['shopping_cart'])
