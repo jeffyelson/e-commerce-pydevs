@@ -50,4 +50,12 @@ class OfferCodes(db.Model):
     discount_img = db.Column(db.String(120), default='image.jpg')
     products = db.relationship('Products')
 
+class UserDetails(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    postalCode = db.Column(db.Integer)
+    address = db.Column(db.String(120))
+    iban = db.Column(db.String(50))
+    country = db.Column(db.String(30))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
 
