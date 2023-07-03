@@ -173,7 +173,21 @@ def home_buyer():
 @views.route('/product/<int:id>')
 def detailsPage(id):
     product = Products.query.get_or_404(id)
-    return render_template("details.html", product=product, user=current_user)
+    discount_code = product.discount
+    expired_offer = OfferCodes.query.filter_by(discount_code="EXPIREDOFFER").first()
+    if discount_code:
+        offer = OfferCodes.query.filter_by(discount_code=discount_code).first()
+
+        if offer and offer.validity > date.today():
+            discount_percentage = offer.discount_percentage
+            discount_img_path = offer.discount_img
+        else:
+            discount_percentage = 0
+            discount_img_path = expired_offer.discount_img
+    else:
+        discount_percentage = 0
+
+    return render_template("details.html", product=product, user=current_user,discount_percentage=discount_percentage,discount_img_path=discount_img_path)
 
 
 @views.route('/sellers')

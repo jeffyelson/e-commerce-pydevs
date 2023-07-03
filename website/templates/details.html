@@ -11,13 +11,13 @@ content %}
         <div class="col-md-6">
             <h2>Product name: {{product.name}}</h2>
             <hr>
-            {% if product.discount|default(0)|int > 0 %}
-            <h5> <b>Product Price:</b> <span ><i class="fa fa-euro"></i>{{ product.price - product.price * product.discount / 100 }}</span>
+            {% if discount_percentage|default(0)|int > 0 %}
+            <h5> <b>Product Price:</b> <span ><i class="fa fa-euro"></i>{{ product.price - product.price * discount_percentage / 100 }}</span>
             {% else %}
             <p> <b>Product Price:</b> €{{product.price}}</p>
             {% endif %}
-            {% if product.discount|default(0)|int > 0 %}
-            <h5><b>Product disount:</b> {{product.discount}} %</h5>
+            {% if discount_percentage|default(0)|int > 0 %}
+            <h5><b>Product disount:</b> {{discount_percentage}} %</h5>
             {% endif %}
             <h5><b> Product Description </b></h5>
             <p>{{product.description}}</p>
@@ -35,6 +35,7 @@ content %}
             <img src="/static/img/{{product.image1}}" class="p-3" width="120" height="120">
             <img src="/static/img/{{product.image2}}" class="p-3" width="120" height="120">
             <img src="/static/img/{{product.image3}}" class="p-3" width="120" height="120">
+            <img src="/static/img/{{discount_img_path}}" class="p-3" width="120" height="120">
         </div>
     </div>
 
