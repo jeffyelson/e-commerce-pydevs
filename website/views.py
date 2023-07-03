@@ -4,7 +4,7 @@ from flask_login import login_required, logout_user, current_user
 from sqlalchemy import func
 from datetime import datetime,date
 
-from .models import Products, Message, User , OfferCodes
+from .models import Products, Message, User , OfferCodes, UserDetails
 import os
 import secrets
 from . import db
@@ -202,6 +202,49 @@ def sellers_list():
 def buyers_list():
     buyers = User.query.filter_by(userType="buyer").all()
     return render_template('buyers.html', user=current_user, buyers=buyers)
+
+@views.route('/userDetails')
+@login_required
+def userDetails():
+    details = UserDetails.query.filter_by(user_id=current_user.id).first()
+    return render_template('userDetails.html', user=current_user, details=details)
+
+
+@views.route('/editUserDetails', methods=['POST'])
+@login_required
+def editUserDetails():
+    details = UserDetails.query.filter_by(user_id=current_user.id).first()
+    if details:
+        details.address = request.form['address']
+        details.postalCode = request.form['postalCode']
+        details.iban = request.form['iban']
+        details.country = request.form['country']
+    else:
+        details = UserDetails(
+            address=request.form['address'],
+            postalCode=request.form['postalCode'],
+            iban=request.form['iban'],
+            country=request.form['country'],
+            user_id=current_user.id
+        )
+        db.session.add(details)
+    db.session.commit()
+    return redirect(url_for('views.userDetails'))
+
+
+@views.route('/addUserDetails', methods=['POST'])
+@login_required
+def addUserDetails():
+    details = UserDetails(
+        address=request.form['address'],
+        postalCode=request.form['postalCode'],
+        iban=request.form['iban'],
+        country=request.form['country'],
+        user_id=current_user.id
+    )
+    db.session.add(details)
+    db.session.commit()
+    return redirect(url_for('views.userDetails'))
 
 
 @views.route('/chat/<int:seller_id>', methods=['GET', 'POST'])
