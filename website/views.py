@@ -2,9 +2,9 @@
 from flask import Blueprint, render_template, request, flash, current_app, session, redirect, url_for
 from flask_login import login_required, logout_user, current_user
 from sqlalchemy import func
-from datetime import datetime,date
+from datetime import datetime, date
 
-from .models import Products, Message, User , OfferCodes, UserDetails
+from .models import Products, Message, User, OfferCodes, UserDetails
 import os
 import secrets
 from . import db
@@ -52,7 +52,7 @@ def addProduct():
         print(category, name, description, price, photo1)
         discount_check = OfferCodes.query.get(discount)
         if discount_check == None:
-            flash("Offer code not valid. Please enter a valid code","error")
+            flash("Offer code not valid. Please enter a valid code", "error")
         else:
             new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
                                    image1=photo1, image2=photo2, image3=photo3, discount=discount,
@@ -111,7 +111,7 @@ def editProduct(id):
         result.discount = request.form.get('discount_code')
         discount_check = OfferCodes.query.get(result.discount)
         if discount_check == None:
-            flash("Offer code not valid. Please enter a valid code","error")
+            flash("Offer code not valid. Please enter a valid code", "error")
         else:
             db.session.commit()
             flash(f'Your product has been updated', 'success')
@@ -166,8 +166,8 @@ def home_buyer():
         else:
             discount_percentages[product.id] = 0
 
-
-    return render_template("home_buyer1.html", user=current_user, products=products, messages=messages,discount_percentages=discount_percentages)
+    return render_template("home_buyer1.html", user=current_user, products=products, messages=messages,
+                           discount_percentages=discount_percentages)
 
 
 @views.route('/product/<int:id>')
@@ -187,7 +187,8 @@ def detailsPage(id):
     else:
         discount_percentage = 0
 
-    return render_template("details.html", product=product, user=current_user,discount_percentage=discount_percentage,discount_img_path=discount_img_path)
+    return render_template("details.html", product=product, user=current_user, discount_percentage=discount_percentage,
+                           discount_img_path=discount_img_path)
 
 
 @views.route('/sellers')
@@ -202,6 +203,7 @@ def sellers_list():
 def buyers_list():
     buyers = User.query.filter_by(userType="buyer").all()
     return render_template('buyers.html', user=current_user, buyers=buyers)
+
 
 @views.route('/userDetails')
 @login_required
@@ -429,20 +431,18 @@ def updateCart(id):
             print(e)
             return redirect(url_for('views.getCart'))
 
+
 @views.route('/addOffers', methods=['GET', 'POST'])
 def addOffers():
     if request.method == 'POST':
-
         discount = request.form.get('discount')
         discount_code = request.form.get('discount_code')
         discount_image = saveImage(request.files.get('discount_img'))
         validity = request.form.get('validity')
         validity = datetime.strptime(validity, '%Y-%m-%d').date()
 
-
-
-        new_offer = OfferCodes(seller_id=current_user.id,discount_code=discount_code,discount_img=discount_image,
-                           discount_percentage=discount,validity=validity)
+        new_offer = OfferCodes(seller_id=current_user.id, discount_code=discount_code, discount_img=discount_image,
+                               discount_percentage=discount, validity=validity)
 
         db.session.add(new_offer)
         db.session.commit()
