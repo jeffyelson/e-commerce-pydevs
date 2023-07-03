@@ -77,7 +77,7 @@
         <div class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
             {% if user.userType == 'buyer' %}
-            <a class="nav-item nav-link" id="seller_List" href="/sellers">Chat</a>
+            <a class="nav-item nav-link" id="seller_List" href="/sellers"> Your Chats</a>
             <a class="nav-item nav-link"  href="/userDetails">UserDetails</a>
             {% endif %}
             {% if user.userType == 'seller' %}
