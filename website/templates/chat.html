@@ -8,12 +8,12 @@
 <div class="chat-container">
     {% for message in messages %}
     {% if message.sender.id == current_user.id %}
-    <div class="my-message">
+    <div class="my-message ml-2">
         <p class="content">{{ message.content }}</p>
         <small class="timestamp">{{ message.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</small>
     </div>
     {% else %}
-    <div class="other-message">
+    <div class="other-message mr-2">
         <p class="content">{{ message.content }}</p>
         <small class="timestamp">{{ message.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</small>
     </div>
