@@ -25,7 +25,21 @@ def saveImage(photo):
 @views.route('/')
 def home():
     products = Products.query.all()
-    return render_template("landingPage.html", user=current_user, products=products)
+    discount_percentages = {}
+    for product in products:
+        discount_code = product.discount  # Get the discount code for the current product
+
+        if discount_code:
+            offer = OfferCodes.query.filter_by(discount_code=discount_code).first()
+
+            if offer and offer.validity > date.today():
+                discount_percentages[product.id] = offer.discount_percentage
+            else:
+                discount_percentages[product.id] = 0
+        else:
+            discount_percentages[product.id] = 0
+    return render_template("landingPage.html", user=current_user, products=products,
+                           discount_percentages=discount_percentages)
 
 
 @views.route('/result')
