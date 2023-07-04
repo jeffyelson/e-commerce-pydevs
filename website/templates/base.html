@@ -82,6 +82,7 @@
             {% endif %}
             {% if user.userType == 'seller' %}
             <a class="nav-item nav-link" id="buyers_List" href="/buyers">Chat</a>
+            <a class="nav-item nav-link" id="seller_profile" href="/seller_profile">Seller Profile</a>
             {% endif %}
             {% if user.userType == 'buyer' %}
             <a class="nav-item nav-link" id="cart" href="/cart">Cart ({{ session['shopping_cart']|length }})</a>

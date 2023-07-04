@@ -451,6 +451,61 @@ def updateCart(id):
             return redirect(url_for('views.getCart'))
 
 
+@views.route('/placeorder', methods=['POST'])
+def placeOrder():
+    if 'shopping_cart' not in session or len(session['shopping_cart']) <= 0:
+        return redirect(url_for('views.home_buyer'))
+    if request.method == "POST":
+        try:
+            session.modified = True
+            for key, item in session['shopping_cart'].items():
+                products = Products.query.filter_by(id=key)
+                user = User.query.filter_by(id=current_user.id)
+                if products.stock > item['quantity']:
+                    quantity = item['quantity']
+                    print(item['quantity'])
+                    products.stock-=quantity
+                    user.products_sold+=quantity
+                    db.session.commit()
+
+                    return redirect(url_for('views.placeorder'))
+                else:
+                    flash("Stock insufficient",category="error")
+                    return redirect(url_for('views.getCart'))
+        except Exception as e:
+            print(e)
+            return redirect(url_for('views.placeorder'))
+
+@views.route('/seller_profile')
+def seller_profile():
+    user = User.query.get(current_user.id)
+    awards = "None"
+    if user.products_sold > 25 :
+        awards = "Gold"
+    elif user.products_sold > 15 and user.products_sold <=25:
+        awards = "Silver"
+    elif user.products_sold <= 15 and user.products_sold > 5:
+        awards = "Bronze"
+    return render_template('seller_profile.html', user=user,awards=awards)
+
+@views.route('/get-pro-membership', methods=['POST'])
+def get_pro_membership():
+    if request.method == 'POST':
+        user = User.query.get(current_user.id)
+        user.pro_membership = 'Yes'
+        db.session.commit()
+        flash('Pro Membership successfully activated!', 'success')
+        return redirect(url_for('views.seller_profile'))
+
+@views.route('/cancel-pro-membership', methods=['POST'])
+def cancel_pro_membership():
+    if request.method == 'POST':
+        user = User.query.get(current_user.id)
+        user.pro_membership = 'No'
+        db.session.commit()
+        flash('Pro Membership cancelled!', 'error')
+        return redirect(url_for('views.seller_profile'))
+
 @views.route('/addOffers', methods=['GET', 'POST'])
 def addOffers():
     if request.method == 'POST':

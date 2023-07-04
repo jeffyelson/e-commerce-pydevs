@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}User Details{% endblock %}
+{% block topnav %}{% endblock %}
+{% block content %}
+    <div class="card mt-5">
+        <div class="card-header">
+            <h1>Seller Profile</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user.firstName }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ user.email }}</h6>
+                        <p class="card-text">User ID: {{ user.id }}</p>
+                        <p class="card-text">Products Sold: {{ user.products_sold }}</p>
+                        <p class="card-text">Awards: {{ awards }}</p>
+                        <p class="card-text">Pro Membership: {{ user.pro_membership }}</p>
+                        {% if user.pro_membership == "No" %}
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#getProMembershipModal">
+                Get Pro Membership
+            </button>
+
+            <div class="modal fade" id="getProMembershipModal" tabindex="-1" role="dialog" aria-labelledby="getProMembershipModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="getProMembershipModalLabel">Get Pro Membership</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('views.get_pro_membership') }}" method="POST">
+                    <div class="form-group">
+                        <label for="ibanInput">IBAN:</label>
+                        <input type="text" class="form-control" id="ibanInput" name="iban" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+        {% else %}
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#cancelProMembershipModal">
+                Cancel Pro Membership
+            </button>
+
+            <div class="modal fade" id="cancelProMembershipModal" tabindex="-1" role="dialog" aria-labelledby="cancelProMembershipModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelProMembershipModalLabel">Cancel Pro Membership</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel your Pro Membership?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="{{ url_for('views.cancel_pro_membership') }}" method="POST">
+                    <button type="submit" class="btn btn-danger">Confirm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+            </div>
+        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+
+    <style>
+        .card {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .user-details {
+            margin-bottom: 20px;
+        }
+
+        .edit-section {
+            margin-top: 20px;
+        }
+    </style>
+
+{% endblock %}

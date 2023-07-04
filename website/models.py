@@ -34,6 +34,9 @@ class User(db.Model, UserMixin):
     products = db.relationship('Products')
     messages_sent = db.relationship('Message', backref='sender', foreign_keys='Message.sender_id')
     messages_received = db.relationship('Message', backref='recipient', foreign_keys='Message.recipient_id')
+    products_sold = db.Column(db.Integer,default=0)
+    pro_membership = db.Column(db.String(5),default="No")
+
 
 
 class Message(db.Model):
