@@ -3,6 +3,8 @@ from flask import Blueprint, render_template, request, flash, current_app, sessi
 from flask_login import login_required, logout_user, current_user
 from sqlalchemy import func
 from datetime import datetime, date
+from decimal import Decimal
+from math import ceil
 
 from .models import Products, Message, User, OfferCodes, UserDetails
 import os
@@ -39,6 +41,16 @@ def calDiscount(products):
     return discount_percentages
 
 
+def calculate_discount_percentage(product):
+    if product.discount is not None and isinstance(product.discount, (int, float)):
+        original_price = Decimal(product.price)
+        discount_percentage = Decimal(str(product.discount))
+        discounted_price = original_price - (original_price * discount_percentage / 100)
+        return ((original_price - discounted_price) / original_price) * 100
+    else:
+        return 0
+
+
 @views.route('/')
 def home():
     products = Products.query.all()
@@ -60,7 +72,7 @@ def addProduct():
         category = request.form.get('category')
         name = request.form.get('name')
         description = request.form.get('description')
-        price = request.form.get('price')
+        price = float(request.form.get('price'))
         stock = request.form.get('stock')
         discount = request.form.get('discount_code')
 
@@ -69,15 +81,17 @@ def addProduct():
         photo3 = saveImage(request.files.get('image3'))
 
         print(category, name, description, price, photo1)
+
         discount_check = OfferCodes.query.get(discount)
         if discount == '':
             discount_percentage = 0
         else:
             discount_check = OfferCodes.query.get(discount)
             discount_percentage = discount_check.discount_percentage
+        totalPrice = price - (price* (discount_percentage/100))
         new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
                                image1=photo1, image2=photo2, image3=photo3, discount=discount,
-                               discount_percentage=discount_percentage,
+                               discount_percentage=discount_percentage,totalPrice= totalPrice,
                                user_id=current_user.id)
 
         db.session.add(new_product)
@@ -336,7 +350,7 @@ def send_message(buyer_id):
 @views.route('/sort/price', methods=['GET'])
 def sort_by_price():
     page = request.args.get('page', 1, type=int)
-    products = Products.query.order_by(Products.price).paginate(page=page, per_page=4)
+    products = Products.query.order_by(Products.totalPrice).paginate(page=page, per_page=4)
     discount_percentages = calDiscount(products)
     return render_template("home_buyer1.html", user=current_user, products=products,
                            discount_percentages=discount_percentages)
