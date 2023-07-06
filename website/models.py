@@ -11,6 +11,7 @@ class Products(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(100), nullable=False)
     price = db.Column(db.Numeric(precision=10, scale=2))
+    totalPrice = db.Column(db.Numeric(precision=10, scale=2))
     stock = db.Column(db.Integer)
 
     image1 = db.Column(db.String(120), default='image.jpg')
