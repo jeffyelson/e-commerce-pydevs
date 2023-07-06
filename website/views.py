@@ -333,7 +333,7 @@ def send_message(buyer_id):
     return redirect(url_for('views.messages', buyer_id=buyer_id))
 
 
-@views.route('/sort/price')
+@views.route('/sort/price', methods=['GET'])
 def sort_by_price():
     page = request.args.get('page', 1, type=int)
     products = Products.query.order_by(Products.price).paginate(page=page, per_page=4)
@@ -342,7 +342,7 @@ def sort_by_price():
                            discount_percentages=discount_percentages)
 
 
-@views.route('/sort/name')
+@views.route('/sort/name', methods=['GET'])
 def sort_by_name():
     page = request.args.get('page', 1, type=int)
     products = Products.query.order_by(Products.name).paginate(page=page, per_page=4)
