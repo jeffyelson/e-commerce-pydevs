@@ -22,9 +22,7 @@ def saveImage(photo):
     return photo_name
 
 
-@views.route('/')
-def home():
-    products = Products.query.all()
+def calDiscount(products):
     discount_percentages = {}
     for product in products:
         discount_code = product.discount  # Get the discount code for the current product
@@ -38,6 +36,13 @@ def home():
                 discount_percentages[product.id] = 0
         else:
             discount_percentages[product.id] = 0
+    return discount_percentages
+
+
+@views.route('/')
+def home():
+    products = Products.query.all()
+    discount_percentages = calDiscount(products)
     return render_template("landingPage.html", user=current_user, products=products,
                            discount_percentages=discount_percentages)
 
@@ -71,9 +76,9 @@ def addProduct():
             discount_check = OfferCodes.query.get(discount)
             discount_percentage = discount_check.discount_percentage
         new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
-                                   image1=photo1, image2=photo2, image3=photo3, discount=discount,
-                                   discount_percentage=discount_percentage,
-                                   user_id=current_user.id)
+                               image1=photo1, image2=photo2, image3=photo3, discount=discount,
+                               discount_percentage=discount_percentage,
+                               user_id=current_user.id)
 
         db.session.add(new_product)
         db.session.commit()
@@ -88,8 +93,8 @@ def addProduct():
 def electronics():
     page = request.args.get('page', 1, type=int)
     products = Products.query.filter_by(category="dogs").paginate(page=page, per_page=4)
-    print(products)
-    return render_template("home_buyer1.html", products=products, user=current_user)
+    discount_percentages = calDiscount(products)
+    return render_template("home_buyer1.html", products=products, user=current_user,discount_percentages=discount_percentages)
 
 
 @views.route('/cats')
@@ -464,29 +469,31 @@ def placeOrder():
                 if products.stock > item['quantity']:
                     quantity = item['quantity']
                     print(item['quantity'])
-                    products.stock-=quantity
-                    user.products_sold+=quantity
+                    products.stock -= quantity
+                    user.products_sold += quantity
                     db.session.commit()
 
                     return redirect(url_for('views.placeorder'))
                 else:
-                    flash("Stock insufficient",category="error")
+                    flash("Stock insufficient", category="error")
                     return redirect(url_for('views.getCart'))
         except Exception as e:
             print(e)
             return redirect(url_for('views.placeorder'))
 
+
 @views.route('/seller_profile')
 def seller_profile():
     user = User.query.get(current_user.id)
     awards = "None"
-    if user.products_sold > 25 :
+    if user.products_sold > 25:
         awards = "Gold"
-    elif user.products_sold > 15 and user.products_sold <=25:
+    elif user.products_sold > 15 and user.products_sold <= 25:
         awards = "Silver"
     elif user.products_sold <= 15 and user.products_sold > 5:
         awards = "Bronze"
-    return render_template('seller_profile.html', user=user,awards=awards)
+    return render_template('seller_profile.html', user=user, awards=awards)
+
 
 @views.route('/get-pro-membership', methods=['POST'])
 def get_pro_membership():
@@ -497,6 +504,7 @@ def get_pro_membership():
         flash('Pro Membership successfully activated!', 'success')
         return redirect(url_for('views.seller_profile'))
 
+
 @views.route('/cancel-pro-membership', methods=['POST'])
 def cancel_pro_membership():
     if request.method == 'POST':
@@ -505,6 +513,7 @@ def cancel_pro_membership():
         db.session.commit()
         flash('Pro Membership cancelled!', 'error')
         return redirect(url_for('views.seller_profile'))
+
 
 @views.route('/addOffers', methods=['GET', 'POST'])
 def addOffers():
