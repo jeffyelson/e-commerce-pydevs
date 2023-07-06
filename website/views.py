@@ -94,31 +94,35 @@ def electronics():
     page = request.args.get('page', 1, type=int)
     products = Products.query.filter_by(category="dogs").paginate(page=page, per_page=4)
     discount_percentages = calDiscount(products)
-    return render_template("home_buyer1.html", products=products, user=current_user,discount_percentages=discount_percentages)
+    return render_template("home_buyer1.html", products=products, user=current_user,
+                           discount_percentages=discount_percentages)
 
 
 @views.route('/cats')
 def food():
     page = request.args.get('page', 1, type=int)
     products = Products.query.filter_by(category="cats").paginate(page=page, per_page=4)
-    print(products)
-    return render_template("home_buyer1.html", products=products, user=current_user)
+    discount_percentages = calDiscount(products)
+    return render_template("home_buyer1.html", products=products, user=current_user,
+                           discount_percentages=discount_percentages)
 
 
 @views.route('/birds')
 def shoes():
     page = request.args.get('page', 1, type=int)
     products = Products.query.filter_by(category="birds").paginate(page=page, per_page=4)
-    print(products)
-    return render_template("home_buyer1.html", products=products, user=current_user)
+    discount_percentages = calDiscount(products)
+    return render_template("home_buyer1.html", products=products, user=current_user,
+                           discount_percentages=discount_percentages)
 
 
 @views.route('/smallAnimals')
 def clothes():
     page = request.args.get('page', 1, type=int)
     products = Products.query.filter_by(category="smallAnimals").paginate(page=page, per_page=4)
-    print(products)
-    return render_template("home_buyer1.html", products=products, user=current_user)
+    discount_percentages = calDiscount(products)
+    return render_template("home_buyer1.html", products=products, user=current_user,
+                           discount_percentages=discount_percentages)
 
 
 @views.route('/editProduct/<int:id>', methods=['GET', 'POST'])
@@ -173,20 +177,8 @@ def home_buyer():
         ).order_by(Message.timestamp.desc()).limit(10).all()
     else:
         messages = None
-    discount_percentages = {}  # Dictionary to store discount percentages
 
-    for product in products.items:
-        discount_code = product.discount  # Get the discount code for the current product
-
-        if discount_code:
-            offer = OfferCodes.query.filter_by(discount_code=discount_code).first()
-
-            if offer and offer.validity > date.today():
-                discount_percentages[product.id] = offer.discount_percentage
-            else:
-                discount_percentages[product.id] = 0
-        else:
-            discount_percentages[product.id] = 0
+    discount_percentages = calDiscount(products)
 
     return render_template("home_buyer1.html", user=current_user, products=products, messages=messages,
                            discount_percentages=discount_percentages)
@@ -345,14 +337,18 @@ def send_message(buyer_id):
 def sort_by_price():
     page = request.args.get('page', 1, type=int)
     products = Products.query.order_by(Products.price).paginate(page=page, per_page=4)
-    return render_template("home_buyer1.html", user=current_user, products=products)
+    discount_percentages = calDiscount(products)
+    return render_template("home_buyer1.html", user=current_user, products=products,
+                           discount_percentages=discount_percentages)
 
 
 @views.route('/sort/name')
 def sort_by_name():
     page = request.args.get('page', 1, type=int)
     products = Products.query.order_by(Products.name).paginate(page=page, per_page=4)
-    return render_template("home_buyer1.html", user=current_user, products=products)
+    discount_percentages = calDiscount(products)
+    return render_template("home_buyer1.html", user=current_user, products=products,
+                           discount_percentages=discount_percentages)
 
 
 def mergeDictionary(dict01, dict02):
