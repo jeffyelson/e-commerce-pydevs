@@ -40,17 +40,6 @@ def calDiscount(products):
             discount_percentages[product.id] = 0
     return discount_percentages
 
-
-def calculate_discount_percentage(product):
-    if product.discount is not None and isinstance(product.discount, (int, float)):
-        original_price = Decimal(product.price)
-        discount_percentage = Decimal(str(product.discount))
-        discounted_price = original_price - (original_price * discount_percentage / 100)
-        return ((original_price - discounted_price) / original_price) * 100
-    else:
-        return 0
-
-
 @views.route('/')
 def home():
     products = Products.query.all()
