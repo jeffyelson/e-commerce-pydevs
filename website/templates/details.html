@@ -1,86 +1,79 @@
-{% extends "base.html" %} {% block title %}HomePage{% endblock %} {% block
-content %}
-
+{% extends "base.html" %}
+{% block title %}HomePage{% endblock %}
+{% block content %}
 
 <div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6" id="b_image">
+      <img src="/static/img/{{product.image1}}" class="img-fluid" alt="Product Image">
+    </div>
+    <div class="col-md-6">
+      <h1>Product name: {{product.name}}</h1>
+      <hr>
+      {% if discount_percentage|default(0)|int > 0 %}
+      <h5><b>Product Price:</b> <span><i class="fa fa-euro"></i>{{ product.price - product.price * discount_percentage / 100 }}</span></h5>
+      {% else %}
+      <h5><b>Product Price:</b> €{{product.price}}</h5>
+      {% endif %}
+      {% if discount_percentage|default(0)|int > 0 %}
+      <h5><b>Product Discount:</b> {{discount_percentage}}%</h5>
+      {% endif %}
+      <h5><b>Product Description:</b></h5>
+      <p>{{product.description}}</p>
+      <form action="{{url_for('views.addToCart')}}" method="post">
+        <input type="hidden" name="product_id" value="{{product.id}}">
+        <button class="btn btn-primary ml-4">Add to Cart</button>
+        <a class="btn btn-primary ml-4" href="{{ url_for('views.chat', seller_id=seller.id) }}">Chat with Seller</a>
+        <label class="ml-2" for="quantity">Quantity:</label>
+        <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}">
+      </form>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div id="s_image" class="d-flex justify-content-start align-items-center">
+        <img src="/static/img/{{product.image1}}" class="p-3" width="120" height="120">
+        <img src="/static/img/{{product.image2}}" class="p-3" width="120" height="120">
+        <img src="/static/img/{{product.image3}}" class="p-3" width="120" height="120">
+        <img src="/static/img/{{discount_img_path}}" class="p-3" width="120" height="120">
+      </div>
+    </div>
+  </div>
+
+  <div class="container mb-4">
+    <h4 class="mb-3">You might be interested in</h4>
     <div class="row">
-        <div class="col-md-6" id="b_image">
-            <img src="/static/img/{{product.image1}}" width="400" height="400">
-
+      {% for suggestion in suggestions %}
+      <div class="col-md-3 mb-4">
+        <div class="card h-100">
+          <img src="/static/img/{{ suggestion.image1 }}" class="card-img-top" alt="Product Image">
+          <div class="card-body">
+            <h5 class="card-title">{{ suggestion.name }}</h5>
+            <p class="card-text">Price: €{{ suggestion.price }}</p>
+          </div>
+          <div class="card-footer">
+            <a href="{{ url_for('views.detailsPage', id=suggestion.id) }}" class="btn btn-primary btn-sm">View Details</a>
+          </div>
         </div>
-        <div class="col-md-6">
-            <h1>Product name: {{product.name}}</h1>
-            <hr>
-            {% if discount_percentage|default(0)|int > 0 %}
-            <h5><b>Product Price:</b> <span><i class="fa fa-euro"></i>{{ product.price - product.price * discount_percentage / 100 }}</span>
-                {% else %}
-                <h5><b>Product Price:</b> €{{product.price}}</h5>
-                {% endif %}
-                {% if discount_percentage|default(0)|int > 0 %}
-                <h5><b>Product disount:</b> {{discount_percentage}} %</h5>
-                {% endif %}
-                <h5><b> Product Description </b></h5>
-                <p>{{product.description}}</p>
-                <form action="{{url_for('views.addToCart')}}" method="post">
-                    <input type="hidden" name="product_id" value="{{product.id}}">
-                    <button class="btn btn-primary ml-4">Add to Cart</button>
-                    <a class="btn btn-primary ml-4" href="{{ url_for('views.chat', seller_id=seller.id) }}">Chat with
-                        Seller</a>
-
-                    <label class="ml-2" for="quantity">Quantity: </label>
-                    <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}">
-                </form>
-        </div>
+      </div>
+      {% endfor %}
     </div>
-
-    <div class="rows">
-        <div class="" id="s_image">
-            <img src="/static/img/{{product.image1}}" class="p-3" width="120" height="120">
-            <img src="/static/img/{{product.image2}}" class="p-3" width="120" height="120">
-            <img src="/static/img/{{product.image3}}" class="p-3" width="120" height="120">
-            <img src="/static/img/{{discount_img_path}}" class="p-3" width="120" height="120">
-        </div>
-    </div>
-    <div class="container mb-4">
-    <h4 class="mb-3 ">You might be interested in</h4>
-    <div class="row">
-        {% for suggestion in suggestions %}
-        <div class="col-md-3 mb-4">
-            <div class="card h-100">
-                <img src="/static/img/{{ suggestion.image1 }}" class="card-img-top" alt="Product Image">
-                <div class="card-body">
-                    <h5 class="card-title">{{ suggestion.name }}</h5>
-                    <p class="card-text">Price: €{{ suggestion.price }}</p>
-                </div>
-                <div class="card-footer">
-                    <a href="{{ url_for('views.detailsPage', id=suggestion.id) }}" class="btn btn-primary btn-sm">View Details</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
-
-
+  </div>
 </div>
 
 <script>
-    var b_image =  document.getElementById('b_image');
-    var s_images = document.getElementById('s_image').getElementsByTagName('img');
+  var b_image = document.getElementById('b_image');
+  var s_images = document.getElementById('s_image').getElementsByTagName('img');
 
-    for (var i = 0; i < s_images.length; i++) {
-        s_images[i].addEventListener('click', full_image);
-    }
+  for (var i = 0; i < s_images.length; i++) {
+    s_images[i].addEventListener('click', full_image);
+  }
 
-    function full_image() {
-        var imageSRC = this.getAttribute('src');
-        b_image.innerHTML = "<img src=" + imageSRC + " width='400' height='400'>";
-    }
-
-
-
+  function full_image() {
+    var imageSRC = this.getAttribute('src');
+    b_image.innerHTML = "<img src=" + imageSRC + " class='img-fluid' alt='Product Image'>";
+  }
 </script>
-
 
 {% endblock %}
