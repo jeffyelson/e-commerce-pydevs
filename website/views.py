@@ -40,6 +40,7 @@ def calDiscount(products):
             discount_percentages[product.id] = 0
     return discount_percentages
 
+
 @views.route('/')
 def home():
     products = Products.query.all()
@@ -77,10 +78,10 @@ def addProduct():
         else:
             discount_check = OfferCodes.query.get(discount)
             discount_percentage = discount_check.discount_percentage
-        totalPrice = price - (price* (discount_percentage/100))
+        totalPrice = price - (price * (discount_percentage / 100))
         new_product = Products(category=category, name=name, description=description, price=price, stock=stock,
                                image1=photo1, image2=photo2, image3=photo3, discount=discount,
-                               discount_percentage=discount_percentage,totalPrice= totalPrice,
+                               discount_percentage=discount_percentage, totalPrice=totalPrice,
                                user_id=current_user.id)
 
         db.session.add(new_product)
@@ -191,6 +192,8 @@ def home_buyer():
 def detailsPage(id):
     product = Products.query.get_or_404(id)
     seller = User.query.get_or_404(product.user_id)
+    suggestions = Products.query.filter(Products.category == product.category, Products.id != id).all()
+    print(suggestions)
     discount_code = product.discount
     expired_offer = OfferCodes.query.filter_by(discount_code="EXPIREDOFFER").first()
     if discount_code:
@@ -207,7 +210,7 @@ def detailsPage(id):
         discount_img_path = ''
 
     return render_template("details.html", product=product, user=current_user, discount_percentage=discount_percentage,
-                           discount_img_path=discount_img_path, seller=seller)
+                           discount_img_path=discount_img_path, seller=seller, suggestions=suggestions)
 
 
 @views.route('/sellers')
