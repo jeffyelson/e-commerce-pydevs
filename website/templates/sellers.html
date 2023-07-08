@@ -37,7 +37,7 @@
     {% for seller in sellers %}
     <li class="seller-list-item">
         <span class="seller-name">{{ seller.firstName }}</span>
-        <a class="chat-link" href="{{ url_for('views.chat', seller_id=seller.id) }}">Chat</a>
+        <a class="chat-link" href="{{ url_for('views.chat', seller_id=seller.id) }}">Show Chats</a>
     </li>
     {% endfor %}
 </ul>
