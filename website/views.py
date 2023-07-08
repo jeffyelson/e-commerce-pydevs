@@ -192,7 +192,7 @@ def home_buyer():
 def detailsPage(id):
     product = Products.query.get_or_404(id)
     seller = User.query.get_or_404(product.user_id)
-    suggestions = Products.query.filter(Products.category == product.category, Products.id != id).all()
+    suggestions = Products.query.filter(Products.category == product.category, Products.id != id).limit(4).all()
     print(suggestions)
     discount_code = product.discount
     expired_offer = OfferCodes.query.filter_by(discount_code="EXPIREDOFFER").first()
