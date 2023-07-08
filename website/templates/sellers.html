@@ -3,18 +3,41 @@
 {% block title %}Sellers List{% endblock %}
 
 {% block content %}
-<h3>Sellers you can chat with:</h3>
-<ul>
-    {% for seller in sellers %}
-    <li>
-        {{ seller.firstName }}
-        <a href="{{ url_for('views.chat', seller_id=seller.id) }}">Chat</a>
-        <ul>
+<style>
+    .seller-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
 
-            {% for product in seller.products %}
-            <li>{{ product.name }}</li>
-            {% endfor %}
-        </ul>
+    .seller-list-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .seller-name {
+        margin-right: 10px;
+    }
+
+    .chat-link {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .chat-link:hover {
+        color: #0056b3;
+    }
+</style>
+
+<h3>Your Chats with Sellers</h3>
+<ul class="seller-list">
+    {% for seller in sellers %}
+    <li class="seller-list-item">
+        <span class="seller-name">{{ seller.firstName }}</span>
+        <a class="chat-link" href="{{ url_for('views.chat', seller_id=seller.id) }}">Chat</a>
     </li>
     {% endfor %}
 </ul>
