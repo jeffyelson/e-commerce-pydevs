@@ -16,6 +16,7 @@
                         <p class="card-text">User ID: {{ user.id }}</p>
                         <p class="card-text">Products Sold: {{ user.products_sold }}</p>
                         <p class="card-text">Awards: {{ awards }}</p>
+                        <p class="card-text">Customer Satisfaction Ratio: {{ satisfaction_percentage }}</p>
                         <p class="card-text">Pro Membership: {{ user.pro_membership }}</p>
                         {% if user.pro_membership == "No" %}
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#getProMembershipModal">

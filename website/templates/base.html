@@ -78,7 +78,8 @@
             {% if user.is_authenticated %}
             {% if user.userType == 'buyer' %}
             <a class="nav-item nav-link" id="seller_List" href="/sellers"> Your Chats</a>
-            <a class="nav-item nav-link"  href="/userDetails">UserDetails</a>
+            <a class="nav-item nav-link"  href="/userDetails">User Details</a>
+            <a class="nav-item nav-link"  href="/myOrders">My Orders</a>
             {% endif %}
             {% if user.userType == 'seller' %}
             <a class="nav-item nav-link" id="buyers_List" href="/buyers">Chat</a>

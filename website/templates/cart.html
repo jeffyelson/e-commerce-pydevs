@@ -42,13 +42,21 @@ content %}
            <tr>
                <td width="35%"></td>
                <td> <h5>Total Bill: ${{total}}</h5> </td>
-                <td> <a href="{{url_for('views.clearcart')}}" class="btn btn-danger btn-sm float-right mr-4"> Clear</a> </td>
+                <td> <a href="{{url_for('views.clearcart')}}" class="btn btn-danger btn-sm float-right mr-4"> Clear Cart</a> </td>
            </tr>
+
         </table>
+
         </div>
       </div>
     </div>
-  </div>
+      <td> <a href="{{url_for('views.userDetails')}}" class="btn btn-danger btn-sm float-right mr-4">Enter/Update User Details</a> </td>
+  <td>
+    <a href="{{ url_for('views.placeOrder') }}" class="btn btn-danger btn-sm float-right mr-4 {% if details is none %}disabled{% endif %}">
+        Buy Now
+    </a>
+</td>
+</div>
 </section>
 
 {% endblock %}

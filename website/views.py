@@ -6,11 +6,12 @@ from datetime import datetime, date
 from decimal import Decimal
 from math import ceil
 
-from .models import Products, Message, User, OfferCodes, UserDetails
+from .models import Products, Message, User, OfferCodes, UserDetails, OrderDetails
 import os
 import secrets
 from . import db
 import json
+import numpy as np
 
 views = Blueprint('views', __name__)
 
@@ -140,8 +141,8 @@ def editProduct(id):
         result.photo = request.files.get('image1')
         result.discount = request.form.get('discount_code')
         discount_check = OfferCodes.query.get(result.discount)
-        if discount_check == None:
-            flash("Offer code not valid. Please enter a valid code", "error")
+        if discount_check == '':
+            discount_percentage = 0
         else:
             db.session.commit()
             flash(f'Your product has been updated', 'success')
@@ -407,12 +408,13 @@ def getCart():
     if 'shopping_cart' not in session or len(session['shopping_cart']) <= 0:
         return redirect(url_for('views.home_buyer'))
     total = 0
+    details = UserDetails.query.filter_by(user_id=current_user.id).first()
 
     for key, product in session['shopping_cart'].items():
         total += float(product['price']) * int(product['quantity'])
     print(total)
 
-    return render_template('cart.html', total=total, user=current_user)
+    return render_template('cart.html', total=total, user=current_user,details=details)
 
 
 @views.route('/deleteitem/<int:id>')
@@ -458,30 +460,60 @@ def updateCart(id):
             return redirect(url_for('views.getCart'))
 
 
-@views.route('/placeorder', methods=['POST'])
+@views.route('/placeOrder', methods=['GET', 'POST'])
 def placeOrder():
-    if 'shopping_cart' not in session or len(session['shopping_cart']) <= 0:
-        return redirect(url_for('views.home_buyer'))
-    if request.method == "POST":
+    if request.method == "GET":
         try:
             session.modified = True
-            for key, item in session['shopping_cart'].items():
-                products = Products.query.filter_by(id=key)
-                user = User.query.filter_by(id=current_user.id)
-                if products.stock > item['quantity']:
-                    quantity = item['quantity']
-                    print(item['quantity'])
-                    products.stock -= quantity
-                    user.products_sold += quantity
-                    db.session.commit()
+            order_id = np.random.randint(1, 10000)
+            order = OrderDetails.query.get(order_id)
 
-                    return redirect(url_for('views.placeorder'))
+            while order is not None:
+                order_id = np.random.randint(1, 10000)
+                order = OrderDetails.query.get(order_id)
+
+            for key, item in session['shopping_cart'].items():
+                product = Products.query.get(key)
+                if product.stock >= item['quantity']:
+                    quantity = item['quantity']
+                    product.stock -= quantity
+                    user = User.query.get(product.user_id)
+                    user.products_sold += quantity
+
+                    orderDetails = OrderDetails(
+                        order_id=order_id,
+                        product_id=product.id,
+                        product_name=product.name,
+                        quantity=quantity,
+                        user_id=current_user.id,
+                        seller_id=product.user_id
+                    )
+
+                    db.session.add(orderDetails)
+
+                    # Commit the changes to the database
+                    db.session.commit()
+                    print(order_id)
+
+                    # Remove the item from the shopping cart
+                    session['shopping_cart'].pop(key, None)
+
+                    fetch_order = OrderDetails.query.filter_by(order_id=order_id).first()
+                    print(fetch_order)
+                    product_details = Products.query.get(fetch_order.product_id)
+
+                    return render_template("order.html", user=current_user, orders=order_id)
                 else:
-                    flash("Stock insufficient", category="error")
+                    flash("Insufficient stock", category="error")
                     return redirect(url_for('views.getCart'))
+
         except Exception as e:
             print(e)
-            return redirect(url_for('views.placeorder'))
+            flash("An error occurred while placing the order.", category="error")
+
+    return render_template("order.html", user=current_user,orders=order_id)
+
+
 
 
 @views.route('/seller_profile')
@@ -494,7 +526,15 @@ def seller_profile():
         awards = "Silver"
     elif user.products_sold <= 15 and user.products_sold > 5:
         awards = "Bronze"
-    return render_template('seller_profile.html', user=user, awards=awards)
+    ratings = OrderDetails.query.filter_by(seller_id=current_user.id).all()
+    total_ratings = len(ratings)
+    total_satisfaction = sum([rating.rating for rating in ratings if rating.rating is not None])
+
+    if total_ratings > 0:
+        satisfaction_percentage = (total_satisfaction / (total_ratings * 5)) * 100
+    else:
+        satisfaction_percentage = 0
+    return render_template('seller_profile.html', user=user, awards=awards,satisfaction_percentage=satisfaction_percentage)
 
 
 @views.route('/get-pro-membership', methods=['POST'])
@@ -536,3 +576,45 @@ def addOffers():
         return render_template("home_seller.html", user=current_user, products=products)
 
     return render_template("addOffers.html", user=current_user)
+
+
+@views.route('/myOrders', methods=['GET', 'POST'])
+@login_required
+def myOrders():
+    orders = OrderDetails.query.filter_by(user_id=current_user.id).all()
+    return render_template("myorders.html", user=current_user, orders=orders)
+
+
+@views.route('/order_seller_details/<int:id>')
+def order_seller_details(id):
+    user = User.query.get(id)
+    awards = "None"
+    if user.products_sold > 25:
+        awards = "Gold"
+    elif user.products_sold > 15 and user.products_sold <= 25:
+        awards = "Silver"
+    elif user.products_sold <= 15 and user.products_sold > 5:
+        awards = "Bronze"
+    ratings = OrderDetails.query.filter_by(seller_id=id).all()
+    total_ratings = len(ratings)
+    total_satisfaction = sum([rating.rating for rating in ratings if rating.rating is not None])
+
+    if total_ratings > 0:
+        satisfaction_percentage = (total_satisfaction / (total_ratings * 5)) * 100
+    else:
+        satisfaction_percentage = 0
+    return render_template('order_seller_details.html', user=user, awards=awards,satisfaction_percentage=satisfaction_percentage)
+
+
+@views.route('/submit_rating/<int:id>', methods=['POST'])
+@login_required
+def submit_rating(id):
+    print(id)
+    rating = int(request.form.get('rating'))
+    order = OrderDetails.query.get(id)
+    print(order)
+    order.rating = rating
+    order.num_rating+=1
+    db.session.commit()
+    flash('Rating submitted successfully.', 'success')
+    return redirect(url_for('views.myOrders'))

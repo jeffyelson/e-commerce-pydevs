@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+{% block topnav %}{% endblock %}
+{% block content %}
+    <div class="card mt-5">
+        <div class="card-header">
+            <h1>Seller Details</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user.firstName }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ user.email }}</h6>
+                        <p class="card-text">User ID: {{ user.id }}</p>
+                        <p class="card-text">Products Sold: {{ user.products_sold }}</p>
+                        <p class="card-text">Awards: {{ awards }}</p>
+                        <p class="card-text">Pro Membership: {{ user.pro_membership }}</p>
+                        <p class="card-text">Customer Satisfaction Ratio: {{ satisfaction_percentage }}</p>
+                        <p><a href="{{url_for('views.myOrders')}}" class="btn btn-info btn-sm">Go back to my orders</a></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+
+
+
+    <style>
+        .card {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .user-details {
+            margin-bottom: 20px;
+        }
+
+        .edit-section {
+            margin-top: 20px;
+        }
+    </style>
+
+{% endblock %}

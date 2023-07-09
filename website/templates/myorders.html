@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}My Orders{% endblock %}
+{% block topnav %}{% endblock %}
+
+{% block content %}
+<h1>My Orders</h1>
+{% if orders %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Rate Product</th>
+        <th>Seller Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+        <tr>
+          <td>{{ order.order_id }}</td>
+          <td>{{ order.product_name }}</td>
+          <td>{{ order.quantity }}</td>
+          <td>
+            {% if order.rating %}
+              {{ order.rating }}
+            {% else %}
+            <form action="{{ url_for('views.submit_rating', id=order.id) }}" method="POST">
+              <select name="rating">
+                {% for rating in range(1, 6) %}
+                  <option value="{{ rating }}">{{ rating }}</option>
+                {% endfor %}
+              </select>
+              <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+            </form>
+            {% endif %}
+          </td>
+          <td><a href="{{ url_for('views.order_seller_details', id=order.seller_id) }}" class="btn btn-info btn-sm">View Seller Profile</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No orders found.</p>
+{% endif %}
+{% endblock %}

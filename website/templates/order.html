@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+    HomePage
+{% endblock %}
+
+{% block content %}
+    <h1>Hello, {{ user.firstName }}</h1>
+
+    <section class="h-100" style="background-color: #eee;">
+        <div class="container-fluid">
+    <div class="container text-center">
+        <h1>Thank you.</h1>
+        <p class="lead w-lg-50 mx-auto">Your order has been placed successfully.</p>
+        <p class="w-lg-50 mx-auto">Your order number is {{orders}}. We will immediately process your and it will be delivered in 2 - 5 business days.</p>
+        <a href="{{ url_for('views.myOrders') }}" style="background-color:black;color:white;" class="btn btn-primary rounded">My Orders</a>
+    </div>
+        </div>
+    </section>
+{% endblock %}
