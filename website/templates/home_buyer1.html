@@ -26,7 +26,11 @@
             <div class="card" style="height: 350px;">
                 <img src="/static/img/{{product.image1}}" class="card-img-top" height="200">
                 <div class="card-body">
+                    {% if product.is_sponsored == "Yes" %}
+                    <h5 class="card-title text-center">{{ product.name }}<span class="badge">Sponsored</span></h5>
+                    {% else %}
                     <h5 class="card-title text-center">{{ product.name }}</h5>
+                    {% endif %}
                     {% if discount_percentages.get(product.id, 0) > 0 %}
                 <p class="card-text text-center">
                     Price: <i class="fa fa-euro"></i>{{ product.price - (product.price * discount_percentages.get(product.id) / 100) }}

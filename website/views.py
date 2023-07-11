@@ -1,7 +1,7 @@
 # defines that this page is the blueprint of the website.
 from flask import Blueprint, render_template, request, flash, current_app, session, redirect, url_for
 from flask_login import login_required, logout_user, current_user
-from sqlalchemy import func
+from sqlalchemy import func, desc
 from datetime import datetime, date
 from decimal import Decimal
 from math import ceil
@@ -173,7 +173,7 @@ def home_seller():
 @views.route('/buyer')
 def home_buyer():
     page = request.args.get('page', 1, type=int)
-    products = Products.query.filter(Products.stock > 0).paginate(page=page, per_page=4)
+    products = Products.query.filter(Products.stock > 0).order_by(desc(Products.is_sponsored)).paginate(page=page, per_page=4)
 
     if current_user.is_authenticated:
         messages = Message.query.filter(
@@ -406,7 +406,7 @@ def addToCart():
 @views.route('/cart')
 def getCart():
     if 'shopping_cart' not in session or len(session['shopping_cart']) <= 0:
-        return redirect(url_for('views.home_buyer'))
+        return redirect(url_for('views.home_buyer1'))
     total = 0
     details = UserDetails.query.filter_by(user_id=current_user.id).first()
 
@@ -542,6 +542,9 @@ def get_pro_membership():
     if request.method == 'POST':
         user = User.query.get(current_user.id)
         user.pro_membership = 'Yes'
+        products = Products.query.filter_by(user_id=current_user.id).all()
+        for product in products:
+            product.is_sponsored = 'Yes'
         db.session.commit()
         flash('Pro Membership successfully activated!', 'success')
         return redirect(url_for('views.seller_profile'))
@@ -552,6 +555,9 @@ def cancel_pro_membership():
     if request.method == 'POST':
         user = User.query.get(current_user.id)
         user.pro_membership = 'No'
+        products = Products.query.filter_by(user_id=current_user.id).all()
+        for product in products:
+            product.is_sponsored = 'No'
         db.session.commit()
         flash('Pro Membership cancelled!', 'error')
         return redirect(url_for('views.seller_profile'))
