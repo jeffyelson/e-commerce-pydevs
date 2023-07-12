@@ -10,9 +10,9 @@
             <div class="d-flex justify-content-end align-items-center mb-3">
                 <h4 class="mr-2">Sort by:</h4>
                 <div class="btn-group" role="group">
-                    <a href="{{ url_for('views.sort_by_price', page=products.page) }}" style="background-color:black;color:white;" class="btn btn-primary rounded">Price</a>
+                    <a href="{{ url_for('views.sort_by_price', page=products.page) }}" style="background-color:black;color:white;" class="btn btn-primary rounded">Price ({{ session['order']}})</a>
                     <a href="{{ url_for('views.sort_by_name', page=products.page) }}" style="background-color:black;color:white;"
-                       class="btn btn-primary ml-2 rounded">Name</a>
+                       class="btn btn-primary ml-2 rounded">Name ({{ session['name_order']}})</a>
                     <a href="/buyer" class="btn btn-danger ml-2 rounded">Reset</a>
 
                 </div>

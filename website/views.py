@@ -174,6 +174,8 @@ def home_seller():
 def home_buyer():
     page = request.args.get('page', 1, type=int)
     products = Products.query.filter(Products.stock > 0).order_by(desc(Products.is_sponsored)).paginate(page=page, per_page=4)
+    session['name_order']="Default"
+    session['order']="Default"
 
     if current_user.is_authenticated:
         messages = Message.query.filter(
@@ -342,8 +344,17 @@ def send_message(buyer_id):
 
 @views.route('/sort/price', methods=['GET'])
 def sort_by_price():
+    order = session.get('order', "Descending")
     page = request.args.get('page', 1, type=int)
-    products = Products.query.order_by(Products.totalPrice).paginate(page=page, per_page=4)
+    if order == "Descending":
+        products = Products.query.order_by(Products.totalPrice).paginate(page=page, per_page=4)
+        order = "Ascending"
+    else:
+        products = Products.query.order_by(desc(Products.totalPrice)).paginate(page=page, per_page=4)
+        order = "Descending"
+    session['order'] = order
+    print(order)
+
     discount_percentages = calDiscount(products)
     return render_template("home_buyer1.html", user=current_user, products=products,
                            discount_percentages=discount_percentages)
@@ -352,7 +363,16 @@ def sort_by_price():
 @views.route('/sort/name', methods=['GET'])
 def sort_by_name():
     page = request.args.get('page', 1, type=int)
-    products = Products.query.order_by(Products.name).paginate(page=page, per_page=4)
+    name_order = session.get('name_order', "Descending")
+    page = request.args.get('page', 1, type=int)
+    if name_order == "Descending":
+        products = Products.query.order_by(Products.name).paginate(page=page, per_page=4)
+        name_order = "Ascending"
+    else:
+        products = Products.query.order_by(desc(Products.name)).paginate(page=page, per_page=4)
+        name_order = "Descending"
+    session['name_order'] = name_order
+    print(name_order)
     discount_percentages = calDiscount(products)
     return render_template("home_buyer1.html", user=current_user, products=products,
                            discount_percentages=discount_percentages)
