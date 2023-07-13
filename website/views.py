@@ -92,7 +92,7 @@ def addProduct():
         products = Products.query.filter_by(user_id=current_user.id)
         return render_template("home_seller.html", user=current_user, products=products)
 
-    return render_template("addProduct.html", user=current_user, offercodes= offercodes)
+    return render_template("addProduct.html", user=current_user, offercodes=offercodes)
 
 
 @views.route('/dogs')
@@ -151,7 +151,7 @@ def editProduct(id):
             products = Products.query.filter_by(user_id=current_user.id)
             return render_template("home_seller.html", user=current_user, products=products)
 
-    return render_template("editProduct.html", user=current_user, result=result, offercodes = offercodes)
+    return render_template("editProduct.html", user=current_user, result=result, offercodes=offercodes)
 
 
 @views.route('/deleteProduct/<int:id>', methods=["POST"])
@@ -175,9 +175,10 @@ def home_seller():
 @views.route('/buyer')
 def home_buyer():
     page = request.args.get('page', 1, type=int)
-    products = Products.query.filter(Products.stock > 0).order_by(desc(Products.is_sponsored)).paginate(page=page, per_page=4)
-    session['name_order']="Default"
-    session['order']="Default"
+    products = Products.query.filter(Products.stock > 0).order_by(desc(Products.is_sponsored)).paginate(page=page,
+                                                                                                        per_page=4)
+    session['name_order'] = "Default"
+    session['order'] = "Default"
 
     if current_user.is_authenticated:
         messages = Message.query.filter(
@@ -237,6 +238,16 @@ def buyers_list():
 def userDetails():
     details = UserDetails.query.filter_by(user_id=current_user.id).first()
     return render_template('userDetails.html', user=current_user, details=details)
+
+
+@views.route('/orders')
+@login_required
+def orders():
+    orderDetails = OrderDetails.query.filter_by(seller_id=current_user.id)
+    for order in orderDetails:
+        userDetails = UserDetails.query.filter_by(user_id=order.user_id)
+
+    return render_template('orders.html', user=current_user, orderDetails=orderDetails, userDetails=userDetails)
 
 
 @views.route('/editUserDetails', methods=['POST'])
@@ -436,7 +447,7 @@ def getCart():
         total += float(product['price']) * int(product['quantity'])
     print(total)
 
-    return render_template('cart.html', total=total, user=current_user,details=details)
+    return render_template('cart.html', total=total, user=current_user, details=details)
 
 
 @views.route('/deleteitem/<int:id>')
@@ -521,7 +532,6 @@ def placeOrder():
 
                     # Remove the item from the shopping cart
 
-
                     fetch_order = OrderDetails.query.filter_by(order_id=order_id).first()
                     print(fetch_order)
                     product_details = Products.query.get(fetch_order.product_id)
@@ -534,9 +544,7 @@ def placeOrder():
             print(e)
             flash("An error occurred while placing the order.", category="error")
 
-    return render_template("order.html", user=current_user,orders=order_id)
-
-
+    return render_template("order.html", user=current_user, orders=order_id)
 
 
 @views.route('/seller_profile')
@@ -557,7 +565,8 @@ def seller_profile():
         satisfaction_percentage = (total_satisfaction / (total_ratings * 5)) * 100
     else:
         satisfaction_percentage = 0
-    return render_template('seller_profile.html', user=user, awards=awards,satisfaction_percentage=satisfaction_percentage)
+    return render_template('seller_profile.html', user=user, awards=awards,
+                           satisfaction_percentage=satisfaction_percentage)
 
 
 @views.route('/get-pro-membership', methods=['POST'])
@@ -632,7 +641,8 @@ def order_seller_details(id):
         satisfaction_percentage = (total_satisfaction / (total_ratings * 5)) * 100
     else:
         satisfaction_percentage = 0
-    return render_template('order_seller_details.html', user=user, awards=awards,satisfaction_percentage=satisfaction_percentage)
+    return render_template('order_seller_details.html', user=user, awards=awards,
+                           satisfaction_percentage=satisfaction_percentage)
 
 
 @views.route('/submit_rating/<int:id>', methods=['POST'])
@@ -647,5 +657,3 @@ def submit_rating(id):
     db.session.commit()
     flash('Rating submitted successfully.', 'success')
     return redirect(url_for('views.myOrders'))
-
-
