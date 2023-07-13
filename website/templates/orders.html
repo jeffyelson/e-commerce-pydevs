@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block topnav %}
+  <!-- Add your top navigation bar here -->
+{% endblock %}
+
+{% block content %}
+<!-- Order details -->
+<div class="order-details">
+  <h1>Order Details</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Shipment Address</th>
+        <th>Postal Code</th>
+        <th>Country</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orderDetails %}
+      {% for user in userDetails %}
+      <tr>
+        <td>{{ order.order_id }}</td>
+        <td>{{ order.product_name }}</td>
+        <td>{{ order.quantity }}</td>
+        <td>{{ user.address }}</td>
+        <td>{{ user.postalCode }}</td>
+        <td>{{ user.country }}</td>
+      </tr>
+      {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  /* CSS styles for the order details page */
+  .order-details {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+  }
+
+  .order-details h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .order-details table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .order-details th,
+  .order-details td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .order-details th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+  }
+
+  .order-details tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+</style>
+{% endblock %}
