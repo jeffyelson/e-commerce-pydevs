@@ -65,6 +65,7 @@
     }
 
 
+
 </style>
 
 <div class="card w-75 form-border">
@@ -99,7 +100,12 @@
         </div>
         <div class="form-group">
             <label>Discount Code:</label>
-            <input type="text" id="discount_code" name="discount_code">
+            <select id="discount_code" name="discount_code">
+                <option value="" selected disabled hidden>Choose a discount code</option>
+                {% for offer in offercodes %}
+                <option value="{{ offer.discount_code }}">{{ offer.discount_code }}</option>
+                {% endfor %}
+            </select>
         </div>
 
         <div class="form-group">
@@ -137,6 +143,7 @@
 
         return true;
     }
+
 
 
 </script>
