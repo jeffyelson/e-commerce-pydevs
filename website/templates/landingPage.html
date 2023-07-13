@@ -55,7 +55,11 @@ content %}
     <div class="discount-card">
         <img class="product-image" src="/static/img/{{ product.image1 }}" alt="Product">
         <a href="/product/{{ product.id }}"><i class="fa fa-info"></i></a>
+        {% if product.is_sponsored == "Yes" %}
+        <span class="title">{{ product.name }}</b><span class="badge">Sponsored</span></span>
+        {% else %}
         <span class="title">{{ product.name }}</span>
+        {% endif %}
         <span class="rating"></span>
         <span class="btn1"><i class="fa fa-euro"></i>{{ product.price - (product.price * discount_percentages.get(product.id) / 100) }}</span>
         <strike><i class="fa fa-euro"></i>{{ product.price }}</strike>

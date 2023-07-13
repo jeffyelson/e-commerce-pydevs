@@ -44,7 +44,7 @@ def calDiscount(products):
 
 @views.route('/')
 def home():
-    products = Products.query.all()
+    products = Products.query.order_by(desc(Products.is_sponsored)).all()
     discount_percentages = calDiscount(products)
     return render_template("landingPage.html", user=current_user, products=products,
                            discount_percentages=discount_percentages)
