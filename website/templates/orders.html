@@ -23,23 +23,22 @@
     </thead>
     <tbody>
       {% for order in orderDetails %}
-      {% for user in userDetails %}
       <tr>
         <td>{{ order.order_id }}</td>
         <td>{{ order.product_name }}</td>
         <td>{{ order.quantity }}</td>
-        <td>{{ user.address }}</td>
-        <td>{{ user.postalCode }}</td>
-        <td>{{ user.country }}</td>
+        {% with user = user_details_map[order.user_id] %}
+          <td>{{ user.address }}</td>
+          <td>{{ user.postalCode }}</td>
+          <td>{{ user.country }}</td>
+        {% endwith %}
       </tr>
-      {% endfor %}
       {% endfor %}
     </tbody>
   </table>
 </div>
 
 <style>
-
   .order-details {
     margin: 20px auto;
     max-width: 800px;
