@@ -59,6 +59,7 @@ def searchResult():
 
 @views.route('/addProduct', methods=['GET', 'POST'])
 def addProduct():
+    offercodes = OfferCodes.query.all()
     if request.method == 'POST':
         category = request.form.get('category')
         name = request.form.get('name')
@@ -91,7 +92,7 @@ def addProduct():
         products = Products.query.filter_by(user_id=current_user.id)
         return render_template("home_seller.html", user=current_user, products=products)
 
-    return render_template("addProduct.html", user=current_user)
+    return render_template("addProduct.html", user=current_user, offercodes= offercodes)
 
 
 @views.route('/dogs')
