@@ -426,7 +426,7 @@ def addToCart():
 @views.route('/cart')
 def getCart():
     if 'shopping_cart' not in session or len(session['shopping_cart']) <= 0:
-        return redirect(url_for('views.home_buyer1'))
+        return redirect(url_for('views.home_buyer'))
     total = 0
     details = UserDetails.query.filter_by(user_id=current_user.id).first()
 
@@ -491,8 +491,10 @@ def placeOrder():
             while order is not None:
                 order_id = np.random.randint(1, 10000)
                 order = OrderDetails.query.get(order_id)
+                print(session['shopping_cart'])
 
             for key, item in session['shopping_cart'].items():
+                print(key)
                 product = Products.query.get(key)
                 if product.stock >= item['quantity']:
                     quantity = item['quantity']
@@ -516,16 +518,15 @@ def placeOrder():
                     print(order_id)
 
                     # Remove the item from the shopping cart
-                    session['shopping_cart'].pop(key, None)
+
 
                     fetch_order = OrderDetails.query.filter_by(order_id=order_id).first()
                     print(fetch_order)
                     product_details = Products.query.get(fetch_order.product_id)
-
-                    return render_template("order.html", user=current_user, orders=order_id)
                 else:
                     flash("Insufficient stock", category="error")
                     return redirect(url_for('views.getCart'))
+            session.pop('shopping_cart', None)
 
         except Exception as e:
             print(e)
@@ -640,7 +641,9 @@ def submit_rating(id):
     order = OrderDetails.query.get(id)
     print(order)
     order.rating = rating
-    order.num_rating+=1
+    order.num_rating += 1
     db.session.commit()
     flash('Rating submitted successfully.', 'success')
     return redirect(url_for('views.myOrders'))
+
+
