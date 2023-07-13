@@ -141,7 +141,7 @@ def editProduct(id):
         result.price = request.form.get('price')
         result.stock = request.form.get('stock')
         result.photo = request.files.get('image1')
-        result.discount = request.form.get('discount_code')
+        result.discount = request.form.get('discount')
         discount_check = OfferCodes.query.get(result.discount)
         if discount_check == '':
             discount_percentage = 0
