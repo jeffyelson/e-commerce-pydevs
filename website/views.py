@@ -134,6 +134,7 @@ def clothes():
 @views.route('/editProduct/<int:id>', methods=['GET', 'POST'])
 def editProduct(id):
     result = Products.query.get_or_404(id)
+    offercodes = OfferCodes.query.all()
     if request.method == "POST":
         result.name = request.form.get('name')
         result.description = request.form.get('description')
@@ -150,7 +151,7 @@ def editProduct(id):
             products = Products.query.all()
             return render_template("home_seller.html", user=current_user, products=products)
 
-    return render_template("editProduct.html", user=current_user, result=result)
+    return render_template("editProduct.html", user=current_user, result=result, offercodes = offercodes)
 
 
 @views.route('/deleteProduct/<int:id>', methods=["POST"])
