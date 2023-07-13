@@ -243,11 +243,17 @@ def userDetails():
 @views.route('/orders')
 @login_required
 def orders():
+    user_details_list = []
     orderDetails = OrderDetails.query.filter_by(seller_id=current_user.id)
-    for order in orderDetails:
-        userDetails = UserDetails.query.filter_by(user_id=order.user_id)
 
-    return render_template('orders.html', user=current_user, orderDetails=orderDetails, userDetails=userDetails)
+    user_details_map = {}
+    for order in orderDetails:
+        userDetails = UserDetails.query.filter_by(user_id=order.user_id).first()
+        user_details_list.append(userDetails)
+        user_details_map[order.user_id] = userDetails
+
+    return render_template('orders.html', user=current_user, orderDetails=orderDetails,
+                           user_details_list=user_details_list, user_details_map=user_details_map)
 
 
 @views.route('/editUserDetails', methods=['POST'])
