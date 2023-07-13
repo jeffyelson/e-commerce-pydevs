@@ -148,7 +148,7 @@ def editProduct(id):
         else:
             db.session.commit()
             flash(f'Your product has been updated', 'success')
-            products = Products.query.all()
+            products = Products.query.filter_by(user_id=current_user.id)
             return render_template("home_seller.html", user=current_user, products=products)
 
     return render_template("editProduct.html", user=current_user, result=result, offercodes = offercodes)
